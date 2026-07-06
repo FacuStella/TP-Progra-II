@@ -40,6 +40,5 @@ public class Empleado extends Persona {
         }
         return letras;
     }
-    
-    
+   
 }
