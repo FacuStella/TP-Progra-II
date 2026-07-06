@@ -1,10 +1,20 @@
 package sherlockhomes;
 
+import java.util.Scanner;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        Scanner sc = new Scanner(System.in);
+        Login login = new Login();
+        
+        do{
+            login.ingresar(sc);
+        } while (1==1);
+        
+        //sc.close();
     }
     
 }
