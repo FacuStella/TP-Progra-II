@@ -1,18 +1,21 @@
 package sherlockhomes;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import static sherlockhomes.TipoUsuario.SOCIO;
 
-public class Socio extends Persona {
+public class Socio extends Usuario implements Serializable {
+    private static final long serialVersionUID = 1L; 
 
     protected Date fechaIngreso;
     protected ArrayList<Vehiculo> vehiculos;
     protected ArrayList<Garage> garages;
 
-    public Socio(String nombre, int DNI, String direccion, String telefono) {
-        super(nombre, DNI, direccion, telefono);
+    public Socio(String nombre, int DNI, String direccion, String telefono, String username, String password) {
+        super(nombre, DNI, direccion, telefono, username, password, SOCIO);
         this.fechaIngreso = Date.from(Instant.now());
         this.vehiculos = new ArrayList();
         this.garages = new ArrayList();

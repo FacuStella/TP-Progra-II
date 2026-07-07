@@ -1,34 +1,30 @@
 package sherlockhomes;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Login {
-    private static Usuario[] usuarios = {
-        new Usuario("socio1", "1234", TipoUsuario.SOCIO),
-        new Usuario("empleado1", "abcd", TipoUsuario.EMPLEADO),
-        new Usuario("admin1", "admin", TipoUsuario.ADMINISTRADOR)
-    };
+    public void ingresar(Scanner sc, ArrayList<Usuario> usuarios) {
 
-    public void ingresar(Scanner sc) {
-        int sale = 0;
+        int sigue;
         System.out.print("Usuario: ");
         String username = sc.nextLine();
 
         System.out.print("Contraseña: ");
         String password = sc.nextLine();
 
-        Usuario usuario = autenticar(username, password);
+        Usuario usuario = autenticar(usuarios, username, password);
 
         if (usuario != null) {
             do{
-                sale = mostrarMenu(usuario, sc);
-            } while(sale == 0);
+                sigue = mostrarMenu(usuarios, usuario, sc);
+            } while(sigue != 0);
         } else {
             System.out.println("Credenciales inválidas.");
         }
     }
 
-    protected Usuario autenticar(String username, String password) {
+    protected Usuario autenticar(ArrayList<Usuario> usuarios,String username, String password) {
         for (Usuario u : usuarios) {
             if (u.getUsername().equals(username) && u.validarPassword(password)) {
                 return u;
@@ -37,23 +33,36 @@ public class Login {
         return null;
     }
 
-    protected int mostrarMenu(Usuario usuario, Scanner sc) {
+    protected int mostrarMenu(ArrayList<Usuario> usuarios, Usuario usuario, Scanner sc) {
         int aux = 0;
         switch (usuario.getTipoUsuario()) {
             case SOCIO -> {
                 Menu menuSocio = new MenuSocio();
+                Socio socioAux = (Socio) usuario;
                 aux = menuSocio.a(sc);
+                AccionesSocio accionesSocio = new AccionesSocio();
+                accionesSocio.ejecutar(socioAux, aux);
             }
             case EMPLEADO -> {
                 Menu menuEmpleado = new MenuEmpleado();
+                Empleado empleadoAux = (Empleado) usuario;
                 aux = menuEmpleado.a(sc);
+                AccionesEmpleado accionesEmpleado = new AccionesEmpleado();
+                accionesEmpleado.ejecutar(empleadoAux, aux);
             }
             case ADMINISTRADOR -> {
                 Menu menuAdmin = new MenuAdministrador();
+                // Empleado empleadoAux = (Empleado) usuario;
                 aux = menuAdmin.a(sc);
+                AccionesAdmin accionesAdmin = new AccionesAdmin();
+                accionesAdmin.ejecutar(usuarios, usuario, aux, sc);
             }
         }
         return aux;
+    }
+
+    private void accionesSocio(Socio socioAux) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

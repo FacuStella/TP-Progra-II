@@ -15,31 +15,4 @@ public class MenuAdministrador extends Menu {
         System.out.println("0. Salir");
     }
     
-    @Override
-    protected void acciones(int tipo) {
-        switch (tipo) {
-            case 1 -> {
-                 System.out.println("Se gestionan socios.");
-            }
-            case 2 -> {
-                System.out.println("Se gestionan vehiculos.");
-            }
-            case 3 -> {
-                System.out.println("Se gestionan garages.");
-            }
-            case 4 -> {
-                System.out.println("Se gestionan zonas.");
-            }
-            case 5 -> {
-                System.out.println("Se gestionan empleados.");
-            }
-            case 0 -> {
-                System.out.println("Gracias vuelva prontos.");
-            }
-            default ->{
-                System.out.println("Opcion no reconocida.");
-            }
-        }
-    }
-    
 }

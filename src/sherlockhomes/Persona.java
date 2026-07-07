@@ -1,6 +1,6 @@
 package sherlockhomes;
 
-public class Persona {
+public abstract class Persona {
     protected String nombre;
     protected int DNI;
     protected String direccion;
@@ -11,5 +11,7 @@ public class Persona {
         this.DNI = DNI;
         this.direccion = direccion;
         this.telefono = telefono;
+    }
+    public Persona(){
     }
 }
