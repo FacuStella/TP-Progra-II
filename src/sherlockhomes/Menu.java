@@ -16,11 +16,9 @@ public class Menu {
                 opcion = Integer.parseInt(input);
             }   
         } while(opcion == -1);
-        acciones(opcion);
-        return opcion == 0 ? 1 : 0 ;
+        return opcion ;
     }
     
     protected void mostrarMenu(){}
     
-    protected void acciones(int tipo) {}
 }

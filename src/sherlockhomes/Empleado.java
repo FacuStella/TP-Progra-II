@@ -1,15 +1,18 @@
 package sherlockhomes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import static sherlockhomes.TipoUsuario.EMPLEADO;
 
-public class Empleado extends Persona {
+public class Empleado extends Usuario implements Serializable {
+    private static final long serialVersionUID = 1L; 
 
     protected int codigo;
     protected String especialidad;
     protected ArrayList<ZonaEmpleado> zonasAsignadas;
 
-    public Empleado(String nombre, int DNI, String direccion, String telefono, int codigo, String especialidad) {
-        super(nombre, DNI, direccion, telefono);
+    public Empleado(String nombre, int DNI, String direccion, String telefono, String username, String password, int codigo, String especialidad) {
+        super(nombre, DNI, direccion, telefono, username, password, EMPLEADO);
         this.codigo = codigo;
         this.especialidad = especialidad;
         this.zonasAsignadas = new ArrayList();
