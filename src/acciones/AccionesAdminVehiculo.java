@@ -1,13 +1,14 @@
-package sherlockhomes;
+package acciones;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sherlockhomes.Usuario;
 
 public class AccionesAdminVehiculo {
 
-    void ejecutar(ArrayList<Usuario> usuariosAux, Usuario usuarioAux, int opc, Scanner sc) {
+    public void ejecutar(ArrayList<Usuario> usuariosAux, Usuario usuarioAux, int opc, Scanner sc) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
             case 1 -> {

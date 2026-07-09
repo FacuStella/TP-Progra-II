@@ -1,13 +1,16 @@
-package sherlockhomes;
+package acciones;
 
 import vistas.Vista;
-import vistas.VistaGestionSocios;
+import vistas.admin.VistaGestionSocios;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sherlockhomes.Empleado;
+import sherlockhomes.Socio;
+import sherlockhomes.Usuario;
 
 public class AccionesAdmin {
 
-    void ejecutar(ArrayList<Usuario> usuarios, ArrayList<Socio> socios, ArrayList<Empleado> empleados, Usuario usuarioLogueado, int opc, Scanner sc) {
+    public void ejecutar(ArrayList<Usuario> usuarios, ArrayList<Socio> socios, ArrayList<Empleado> empleados, Usuario usuarioLogueado, int opc, Scanner sc) {
         int aux = 0;
         
         switch (opc) {

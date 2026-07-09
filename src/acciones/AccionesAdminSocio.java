@@ -1,11 +1,12 @@
-package sherlockhomes;
+package acciones;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import sherlockhomes.Usuario;
 
 public class AccionesAdminSocio {
 
-    void ejecutar(ArrayList<Usuario> usuariosAux, Usuario usuarioAux, int opc, Scanner sc) {
+    public void ejecutar(ArrayList<Usuario> usuariosAux, Usuario usuarioAux, int opc, Scanner sc) {
 
         switch (opc) {
             case 1 -> {

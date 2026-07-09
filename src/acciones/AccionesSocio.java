@@ -1,8 +1,10 @@
-package sherlockhomes;
+package acciones;
+
+import sherlockhomes.Socio;
 
 public class AccionesSocio {
 
-    void ejecutar(Socio socioAux, int opc) {
+    public void ejecutar(Socio socioAux, int opc) {
         switch (opc) {
             case 1 -> {
                 System.out.println("Buscando vehiculos.");
