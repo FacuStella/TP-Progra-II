@@ -18,8 +18,13 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
             return (ArrayList<Usuario>) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>(); // si falla, devuelve lista vacía
+            ArrayList<Usuario> usuariosHard = new ArrayList<>();
+
+            usuariosHard.add(new Socio("Gian", 11111111, "1151107777", "CABA", "gianSoc", "gian"));
+            usuariosHard.add(new Empleado("Facu", 22222222, "1151108888", "CABA", "facuEmp", "facu", 2222, "ALGO"));
+            usuariosHard.add(new Usuario("Heber", 33333333, "1151108888", "CABA", "heberAdmin", "heber", TipoUsuario.ADMINISTRADOR));
+            
+            return usuariosHard; // si falla, devuelve lista vacía
         }
     }
     
@@ -36,7 +41,6 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
             return (ArrayList<Vehiculo>) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
             return new ArrayList<>(); // si falla, devuelve lista vacía
         }
     }
@@ -54,7 +58,6 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
             return (ArrayList<Garage>) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
             return new ArrayList<>(); // si falla, devuelve lista vacía
         }
     }
@@ -72,7 +75,6 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
             return (ArrayList<Zona>) ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
             return new ArrayList<>(); // si falla, devuelve lista vacía
         }
     }

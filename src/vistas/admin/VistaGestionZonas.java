@@ -10,9 +10,9 @@ public class VistaGestionZonas extends Vista {
     public void mostrarMenu() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Acciones sobre Zonas ===");
-        System.out.println("1. Agregar garage");
-        System.out.println("2. Modificar garage");
-        System.out.println("2. Eliminar garage");
+        System.out.println("1. Agregar zona");
+        System.out.println("2. Modificar zona");
+        System.out.println("2. Eliminar zona");
         System.out.println("0. Salir");
     }
     

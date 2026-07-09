@@ -4,22 +4,20 @@ import java.util.Scanner;
 
 public class Vista {
     
-    public int a(Scanner sc){
+    public int ingresaInt(Scanner sc){
         String input;
         int opcion = -1;
         
-        do{
-            mostrarMenu();
-            input = sc.nextLine();
+        input = sc.nextLine();
 
-            if (input.matches("\\d{1}")) {
-                opcion = Integer.parseInt(input);
-            }   
-        } while(opcion == -1);
-        return opcion ;
+        if (input.matches("\\d{1}")) {
+            opcion = Integer.parseInt(input);
+        }   
+        
+        return opcion;
     }
     
-    protected void mostrarMenu(){}
+    public void mostrarMenu(){}
 
     public void salir() {
         System.out.println("Gracias vuelva prontos.");

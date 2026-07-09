@@ -7,7 +7,7 @@ import vistas.Vista;
 public class VistaSocio extends Vista {
 
     @Override
-    protected void mostrarMenu(){
+    public void mostrarMenu(){
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Menú Socio ===");
         System.out.println("1. Consultar vehículos");
