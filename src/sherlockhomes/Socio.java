@@ -48,6 +48,14 @@ public class Socio extends Usuario implements Serializable {
     public String getNombre() {
         return nombre;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
     
     
 }

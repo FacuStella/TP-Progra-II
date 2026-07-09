@@ -4,11 +4,13 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
+import sherlockhomes.Socio;
+import sherlockhomes.SocioUtils;
 import sherlockhomes.Usuario;
 
 public class AccionesAdminVehiculo {
 
-    public void ejecutar(ArrayList<Usuario> usuariosAux, Usuario usuarioAux, int opc, Scanner sc) {
+    public void ejecutar(ArrayList<Usuario> usuarios, ArrayList<Socio> socios, Usuario usuario, int opc, Scanner sc) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
             case 1 -> {
@@ -29,14 +31,6 @@ public class AccionesAdminVehiculo {
                 System.out.print("Ingrese DNI Propietario: ");
                 int DNI = sc.nextInt();
                 sc.nextLine();
-                
-                //Socio socio = SocioUtils.buscarSocioPorDni(usuariosAux, 12345678);
-
-                //Vehiculo vehiculo = new Vehiculo(patente, marca, tipo, dimensiones);
-                
-                //socio.agregarVehiculo(vehiculo);
-
-                //System.out.println("Vehículo registrado correctamente para el socio " + socio.getNombre());
             }
             case 2 -> {
                 System.out.println("Se modifica vehiculo.");
