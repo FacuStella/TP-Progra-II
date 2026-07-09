@@ -1,7 +1,8 @@
-package vistas;
+package vistas.admin;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import vistas.Vista;
 
 public class VistaGestionGarages extends Vista {
 

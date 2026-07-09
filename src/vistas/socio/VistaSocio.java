@@ -1,7 +1,8 @@
-package vistas;
+package vistas.socio;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import vistas.Vista;
 
 public class VistaSocio extends Vista {
 

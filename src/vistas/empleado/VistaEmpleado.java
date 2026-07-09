@@ -1,8 +1,9 @@
-package vistas;
+package vistas.empleado;
 
 import vistas.Vista;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import vistas.Vista;
 
 public class VistaEmpleado extends Vista {
 

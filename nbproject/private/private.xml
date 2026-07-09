@@ -2,21 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Main.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Socio.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Persona.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Empleado.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Login.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/AccionesSocio.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/AccionesEmpleado.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/AccionesAdmin.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Menu.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/VistaGestionSocios.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/MenuEmpleado.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/AccionesAdminSocio.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/Usuario.java</file>
-            <file>file:/C:/Users/facun/OneDrive/Documentos/NetBeansProjects/SherlockHomes/src/sherlockhomes/PersistenciaUsuarios.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

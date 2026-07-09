@@ -1,5 +1,11 @@
 package sherlockhomes;
 
+import acciones.AccionesSocio;
+import acciones.AccionesEmpleado;
+import acciones.*;
+import vistas.socio.*;
+import vistas.empleado.*;
+import vistas.admin.*;
 import vistas.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,8 +14,30 @@ import static sherlockhomes.TipoUsuario.EMPLEADO;
 import static sherlockhomes.TipoUsuario.SOCIO;
 
 public class Sistema {
-    public void iniciar(Scanner sc, ArrayList<Usuario> usuarios) {
-        ArrayList<Socio> socios = new ArrayList<>();
+    protected ArrayList<Usuario> usuarios;
+    protected ArrayList<Empleado> empleados;
+    protected ArrayList<Socio> socios;
+    protected Usuario usuarioLogueado;
+    protected Scanner sc;
+    
+    public Sistema (Scanner sc, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos, ArrayList<Garage> garages, ArrayList<Zona> zonas) {
+        this.usuarios = usuarios;
+        this.sc = sc;
+        cargaListas(usuarios);
+    }
+    
+    public void iniciar() {  
+        cargaUsuario();
+        
+        int accion;
+        do{
+            accion = mostrarMenu(usuarioLogueado, sc);
+            ejecutarAccion(usuarios, socios, empleados, usuarioLogueado, accion, sc);
+        } while(accion != 0);
+    }
+    
+    private void cargaListas(ArrayList<Usuario> usuarios) {
+        socios = new ArrayList<>();
 
         for (Usuario u : usuarios) {
             if (u instanceof Socio) {
@@ -17,22 +45,13 @@ public class Sistema {
             }
         }
         
-        ArrayList<Empleado> empleados = new ArrayList<>();
+        empleados = new ArrayList<>();
         
         for (Empleado u : empleados) {
             if (u instanceof Empleado) {
                 empleados.add((Empleado) u); 
             }
         }
-
-        Login login = new Login();
-        Usuario usuarioLogueado;
-        usuarioLogueado = login.ingresar(sc, usuarios);
-        int accion;
-        do{
-            accion = mostrarMenu(usuarioLogueado, sc);
-            ejecutarAccion(usuarios, socios, empleados, usuarioLogueado, accion, sc);
-        } while(accion != 0);
     }
 
     protected int mostrarMenu(Usuario usuario, Scanner sc) {
@@ -109,5 +128,12 @@ public class Sistema {
         }
         return aux;
     }
+
+    private void cargaUsuario() {
+        Login login = new Login();
+        usuarioLogueado = login.ingresar(sc, usuarios);
+    }
+
+    
 
 }

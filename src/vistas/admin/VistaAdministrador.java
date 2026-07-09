@@ -1,8 +1,9 @@
-package vistas;
+package vistas.admin;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import vistas.Vista;
 
 public class VistaAdministrador extends Vista {
     
