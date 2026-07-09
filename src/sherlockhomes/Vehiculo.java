@@ -5,7 +5,7 @@ import java.util.Date;
 public class Vehiculo {
 
     protected String matricula;
-    protected String nombre;
+    protected String marca;
     protected String tipo;
     protected String dimensiones;
     protected Socio propietario;
@@ -13,9 +13,9 @@ public class Vehiculo {
     private Garage garageAsignado;
     private Date fechaAsignacion;
 
-    public Vehiculo(String matricula, String nombre, String tipo, String dimensiones, Socio propietario) {
+    public Vehiculo(String matricula, String marca, String tipo, String dimensiones, Socio propietario) {
         this.matricula = matricula;
-        this.nombre = nombre;
+        this.marca = marca;
         this.tipo = tipo;
         this.dimensiones = dimensiones;
         this.propietario = propietario;

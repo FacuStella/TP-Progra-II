@@ -1,11 +1,14 @@
-package sherlockhomes;
+package vistas;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class MenuAdministrador extends Menu {
+public class VistaAdministrador extends Vista {
     
     @Override
     public void mostrarMenu() {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Menú Administrador ===");
         System.out.println("1. Gestionar socios");
         System.out.println("2. Gestionar vehículos");
