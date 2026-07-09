@@ -40,6 +40,14 @@ public class Socio extends Usuario implements Serializable {
     public List<Garage> getGarages() {
         return garages;
     }   
+
+    public int getDNI() {
+        return DNI;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
     
     
 }

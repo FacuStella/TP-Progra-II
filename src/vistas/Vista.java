@@ -1,8 +1,8 @@
-package sherlockhomes;
+package vistas;
 
 import java.util.Scanner;
 
-public class Menu {
+public class Vista {
     
     public int a(Scanner sc){
         String input;
@@ -20,5 +20,13 @@ public class Menu {
     }
     
     protected void mostrarMenu(){}
+
+    public void salir() {
+        System.out.println("Gracias vuelva prontos.");
+    }
+
+    public void noReconocida() {
+                System.out.println("Opcion no reconocida.");
+    }
     
 }

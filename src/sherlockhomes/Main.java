@@ -7,9 +7,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        
+        Sistema s = new Sistema();
         Scanner sc = new Scanner(System.in);
-        Login login = new Login();
         ArrayList<Usuario> usuariosHard = new ArrayList<>();
 
         usuariosHard.add(new Socio("Gian", 11111111, "1151107777", "CABA", "gianSoc", "gian"));
@@ -23,7 +22,7 @@ public class Main {
         ArrayList<Usuario> usuarios = PersistenciaUsuarios.cargarUsuarios("usuarios.dat");
         
         do{
-            login.ingresar(sc, usuarios);
+            s.iniciar(sc, usuarios);
         } while (1==1);
         
         //sc.close();
