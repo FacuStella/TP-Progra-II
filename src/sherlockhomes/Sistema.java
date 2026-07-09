@@ -1,42 +1,34 @@
 package sherlockhomes;
 
-import acciones.AccionesSocio;
-import acciones.AccionesEmpleado;
-import acciones.*;
+import vistas.*;
 import vistas.socio.*;
 import vistas.empleado.*;
 import vistas.admin.*;
-import vistas.*;
+import acciones.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import static sherlockhomes.TipoUsuario.ADMINISTRADOR;
-import static sherlockhomes.TipoUsuario.EMPLEADO;
-import static sherlockhomes.TipoUsuario.SOCIO;
+import static sherlockhomes.TipoUsuario.*;
 
 public class Sistema {
     protected ArrayList<Usuario> usuarios;
     protected ArrayList<Empleado> empleados;
     protected ArrayList<Socio> socios;
+    protected ArrayList<Vehiculo> vehiculos;
+    protected ArrayList<Garage> garages;
+    protected ArrayList<Zona> zonas;
     protected Usuario usuarioLogueado;
     protected Scanner sc;
     
     public Sistema (Scanner sc, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos, ArrayList<Garage> garages, ArrayList<Zona> zonas) {
         this.usuarios = usuarios;
-        this.sc = sc;
         cargaListas(usuarios);
+        this.vehiculos = vehiculos;
+        this.garages = garages;
+        this.zonas = zonas;
+        this.sc = sc;
     }
     
-    public void iniciar() {  
-        cargaUsuario();
-        
-        int accion;
-        do{
-            accion = mostrarMenu(usuarioLogueado, sc);
-            ejecutarAccion(usuarios, socios, empleados, usuarioLogueado, accion, sc);
-        } while(accion != 0);
-    }
-    
-    private void cargaListas(ArrayList<Usuario> usuarios) {
+    protected void cargaListas(ArrayList<Usuario> usuarios) {
         socios = new ArrayList<>();
 
         for (Usuario u : usuarios) {
@@ -53,10 +45,25 @@ public class Sistema {
             }
         }
     }
-
-    protected int mostrarMenu(Usuario usuario, Scanner sc) {
+    
+    public void iniciar() {  
+        cargaUsuario();
+        
+        int accion;
+        do{
+            accion = mostrarMenu();
+            ejecutarAccion(accion);
+        } while(accion != 0);
+    }
+    
+    protected void cargaUsuario() {
+        Login login = new Login();
+        usuarioLogueado = login.ingresar(sc, usuarios);
+    }
+    
+    protected int mostrarMenu() {
         int aux = 0;
-        switch (usuario.getTipoUsuario()) {
+        switch (usuarioLogueado.getTipoUsuario()) {
             case SOCIO -> {
                 Vista menuSocio = new VistaSocio();
                 aux = menuSocio.a(sc);
@@ -73,7 +80,7 @@ public class Sistema {
         return aux;
     }
     
-    protected void ejecutarAccion(ArrayList<Usuario> usuarios, ArrayList<Socio> socios, ArrayList<Empleado> empleados, Usuario usuarioLogueado, int accion, Scanner sc) {
+    protected void ejecutarAccion(int accion) {
         switch (usuarioLogueado.getTipoUsuario()) {
             case SOCIO -> {
                 Socio socioAux = (Socio) usuarioLogueado;
@@ -87,14 +94,14 @@ public class Sistema {
             }
             case ADMINISTRADOR -> {
                 int opcAdm;
-                opcAdm = mostrarMenuAdmin(accion, sc);
+                opcAdm = mostrarMenuAdmin(accion);
                 AccionesAdmin accionesAdmin = new AccionesAdmin();
-                accionesAdmin.ejecutar(usuarios, socios, empleados, usuarioLogueado, opcAdm, sc);
+                accionesAdmin.ejecutar(usuarios, socios, empleados, vehiculos, garages, zonas, usuarioLogueado, opcAdm, sc);
             }
         }
     }
     
-    protected int mostrarMenuAdmin(int opcion, Scanner sc) {
+    protected int mostrarMenuAdmin(int opcion) {
         int aux = 0;
         switch (opcion) {
             case 1 -> {
@@ -128,12 +135,5 @@ public class Sistema {
         }
         return aux;
     }
-
-    private void cargaUsuario() {
-        Login login = new Login();
-        usuarioLogueado = login.ingresar(sc, usuarios);
-    }
-
-    
 
 }
