@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Zona {
     protected String letra;
-    protected ArrayList<String> tipoVehiculos;
+    protected String tipoVehiculos;
     protected int numeroVehiculos;
     protected int profundidadGarage;
     protected int anchoGarage;
@@ -28,6 +28,28 @@ public class Zona {
     }
 
     public String getLetra() {
-        return this.letra;
+        return letra;
     }
+
+    public String getTipoVehiculos() {
+        return tipoVehiculos;
+    }
+
+    public int getNumeroVehiculos() {
+        return numeroVehiculos;
+    }
+
+    public int getProfundidadGarage() {
+        return profundidadGarage;
+    }
+
+    public int getAnchoGarage() {
+        return anchoGarage;
+    }
+
+    public ArrayList<Empleado> getEmpleados() {
+        return empleados;
+    }
+    
+    
 }

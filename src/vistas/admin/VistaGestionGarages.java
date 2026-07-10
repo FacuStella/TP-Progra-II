@@ -12,7 +12,7 @@ public class VistaGestionGarages extends Vista {
         System.out.println("=== Acciones sobre Garages ===");
         System.out.println("1. Agregar garage");
         System.out.println("2. Modificar garage");
-        System.out.println("2. Eliminar garage");
+        System.out.println("3. Eliminar garage");
         System.out.println("0. Salir");
     }
     

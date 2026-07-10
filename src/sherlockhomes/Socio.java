@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import static sherlockhomes.TipoUsuario.SOCIO;
 
 public class Socio extends Usuario implements Serializable {
@@ -33,29 +32,11 @@ public class Socio extends Usuario implements Serializable {
         garages.add(garage);
     }
 
-    public List<Vehiculo> getVehiculos() {
+    public ArrayList<Vehiculo> getVehiculos() {
         return vehiculos;
     }
 
-    public List<Garage> getGarages() {
+    public ArrayList<Garage> getGarages() {
         return garages;
     }   
-
-    public int getDNI() {
-        return DNI;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-    
-    
 }

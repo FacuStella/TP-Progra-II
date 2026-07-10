@@ -19,7 +19,8 @@ public class AccionesAdmin {
                 accionesAdminSocio.ejecutar(usuarios, socios, usuarioLogueado, opcAdm, sc);
             }
             case 2 -> {
-                System.out.println("Se gestionan vehiculos.");
+                AccionesAdminVehiculo accionesAdminVehiculo = new AccionesAdminVehiculo();
+                accionesAdminVehiculo.ejecutar(usuarios, socios, vehiculos, usuarioLogueado, opcAdm, sc);
             }
             case 3 -> {
                 System.out.println("Se gestionan garages.");

@@ -12,7 +12,7 @@ public class VistaGestionZonas extends Vista {
         System.out.println("=== Acciones sobre Zonas ===");
         System.out.println("1. Agregar zona");
         System.out.println("2. Modificar zona");
-        System.out.println("2. Eliminar zona");
+        System.out.println("3. Eliminar zona");
         System.out.println("0. Salir");
     }
     

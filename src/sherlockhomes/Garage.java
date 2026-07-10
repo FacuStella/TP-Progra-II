@@ -31,4 +31,34 @@ public class Garage {
     public boolean tienePropietario() {
         return propietario != null;
     }
+
+    public int getNumeroGarage() {
+        return numeroGarage;
+    }
+
+    public double getLecturaContadorLuz() {
+        return lecturaContadorLuz;
+    }
+
+    public boolean isMantenimientoContratado() {
+        return mantenimientoContratado;
+    }
+
+    public Vehiculo getVehiculoOcupante() {
+        return vehiculoOcupante;
+    }
+
+    public Zona getZona() {
+        return zona;
+    }
+
+    public Socio getPropietario() {
+        return propietario;
+    }
+
+    public Date getFechaCompra() {
+        return fechaCompra;
+    }
+    
+    
 }

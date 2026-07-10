@@ -34,5 +34,33 @@ public class Vehiculo {
     public boolean tieneGarageAsignado() {
         return garageAsignado != null;
     }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getDimensiones() {
+        return dimensiones;
+    }
+
+    public Socio getPropietario() {
+        return propietario;
+    }
+
+    public Garage getGarageAsignado() {
+        return garageAsignado;
+    }
+
+    public Date getFechaAsignacion() {
+        return fechaAsignacion;
+    }
     
 }
