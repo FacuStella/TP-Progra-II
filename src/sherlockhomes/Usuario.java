@@ -34,4 +34,12 @@ public class Usuario extends Persona implements Serializable {
         return ID + "," + username + "," + password + "," + tipoUsuario;
     }
 
+    public int getId() {
+        return ID;
+    }
+
+    public String getUserName() {
+        return username;
+    }
+
 }

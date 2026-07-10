@@ -30,20 +30,19 @@ public class Sistema {
     
     protected void cargaListas(ArrayList<Usuario> usuarios) {
         socios = new ArrayList<>();
+        empleados = new ArrayList<>();
 
         for (Usuario u : usuarios) {
-            if (u instanceof Socio) {
-                System.out.println("Encontro un socio");
-                socios.add((Socio) u); 
-            }
-        }
-        
-        empleados = new ArrayList<>();
-        
-        for (Usuario u : usuarios) {
-            if (u instanceof Empleado) {
-                System.out.println("Encontro un empleado");
-                empleados.add((Empleado) u); 
+            switch(u){ 
+                case Socio s -> {
+                    socios.add(s); 
+                }
+                case Empleado e -> {
+                    empleados.add(e); 
+                }
+                default -> {
+                
+                }
             }
         }
     }
