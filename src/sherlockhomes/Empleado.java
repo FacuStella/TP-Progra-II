@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import static sherlockhomes.TipoUsuario.EMPLEADO;
 
 public class Empleado extends Usuario implements Serializable {
-    private static final long serialVersionUID = 1L; 
     
+    private static final long serialVersionUID = 1L; 
     private static int contadorCodigo = 1000; 
     protected int codigo;
     protected String especialidad;

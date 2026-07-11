@@ -9,7 +9,6 @@ public class Vehiculo {
     protected String tipo;
     protected String dimensiones;
     protected Socio propietario;
-    
     private Garage garageAsignado;
     private Date fechaAsignacion;
 

@@ -7,9 +7,9 @@ import static sherlockhomes.Persistencia.guardarVehiculos;
 
 public class VehiculoRepositoryFile implements VehiculoRepository {
     
-    ArrayList<Vehiculo> vehiculos;
-    GarageRepositoryFile garageRepository;
-    ZonaRepositoryFile zoneRepository;
+    protected ArrayList<Vehiculo> vehiculos;
+    protected GarageRepositoryFile garageRepository;
+    protected ZonaRepositoryFile zoneRepository;
     
     @Override
     public boolean crearVehiculo(String patente, String marca, String tipo, String dimensiones, Socio socio){ 
