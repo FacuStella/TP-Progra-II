@@ -10,9 +10,11 @@ public class VistaGestionGarages extends Vista {
     public void mostrarMenu() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Acciones sobre Garages ===");
-        System.out.println("1. Agregar garage");
-        System.out.println("2. Modificar garage");
-        System.out.println("3. Eliminar garage");
+        System.out.println("1. Agregar");
+        System.out.println("2. Quitar vehiculo");
+        System.out.println("3. Asignar vehiculo");
+        System.out.println("4. Comprar");
+        System.out.println("5. Mostrar todos");
         System.out.println("0. Salir");
     }
     

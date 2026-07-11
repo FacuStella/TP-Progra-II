@@ -9,6 +9,11 @@ public class SocioRepositoryFile implements SocioRepository {
     protected ArrayList<Socio> socios;
     protected UsuarioRepositoryFile userRepository;
     protected VehiculoRepositoryFile vehicleRepository;
+    protected GarageRepositoryFile garageRepository;
+    
+    public SocioRepositoryFile(){
+        userRepository = new UsuarioRepositoryFile();
+    }
     
     @Override
     public boolean crearSocio(String nombre, int DNI, String direccion, String telefono){
@@ -48,6 +53,22 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
+    public boolean modificarSocioPorDni(int DNI, String direccion, String telefono) {
+        socios = cargarSocios();
+        
+        Socio socioAux;
+        
+        socioAux = buscarSocioPorDni(DNI);
+        
+        if(!direccion.isBlank()){socioAux.setDireccion(direccion);}
+        if(!direccion.isBlank()){socioAux.setTelefono(telefono);}
+
+        userRepository.modificarSocio(socioAux);
+        
+        return true;
+    }
+    
+    @Override
     public void mostrarSocio(Socio socio) {
         System.out.println("Nombre: " + socio.getNombre() +
                        " | DNI: " + socio.getDNI() +
@@ -77,6 +98,20 @@ public class SocioRepositoryFile implements SocioRepository {
             mostrarSocio(s);
         }
     }
+    
+    @Override
+    public void listarSocioVehiculos(Socio socio) {
+        vehicleRepository = new VehiculoRepositoryFile();
+        System.out.println("=== Lista de Vehiculos del Socio "+socio.getNombre()+" ===");
+        vehicleRepository.listarVehiculos(socio.getVehiculos());
+    }
+    
+    @Override
+    public void listarSocioGarages(Socio socio) {
+        garageRepository = new GarageRepositoryFile();
+        System.out.println("=== Lista de Garages del Socio "+socio.getNombre()+" ===");
+        garageRepository.listarGarages(socio.getGarages());
+    }
 
     @Override
     public void eliminarSocio(Socio socio) {
@@ -97,36 +132,4 @@ public class SocioRepositoryFile implements SocioRepository {
             return false;
         }    
     }
-    
-    @Override
-    public void listarSocioVehiculos(Socio socio) {
-        System.out.println("=== Lista de Vehiculos del Socio "+socio.getNombre()+" ===");
-        vehicleRepository.listarVehiculos(socio.getVehiculos());
-    }
-    
-    @Override
-    public void listarSocioGarages(Socio socio) {
-        System.out.println("=== Lista de Garages del Socio "+socio.getNombre()+" ===");
-        GarageRepositoryFile.listarGarages(socio.getGarages());
-    }
-
-
-
-    @Override
-    public boolean modificarSocioPorDni(int DNI, String direccion, String telefono) {
-        socios = cargarSocios();
-        
-        Socio socioAux;
-        
-        socioAux = buscarSocioPorDni(DNI);
-        
-        if(!direccion.isBlank()){socioAux.setDireccion(direccion);}
-        if(!direccion.isBlank()){socioAux.setTelefono(telefono);}
-
-        userRepository.modificarSocio(socioAux);
-        
-        return true;
-    }
-
-
 }

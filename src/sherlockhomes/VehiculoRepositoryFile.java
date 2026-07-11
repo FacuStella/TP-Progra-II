@@ -9,7 +9,9 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     
     ArrayList<Vehiculo> vehiculos;
     GarageRepositoryFile garageRepository;
-    ZonaRepositoryFile zoneRepository;
+    
+    public VehiculoRepositoryFile(){
+    }
     
     @Override
     public boolean crearVehiculo(String patente, String marca, String tipo, String dimensiones, Socio socio){ 
@@ -45,6 +47,55 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
+    public boolean tieneGarageAsignado(String patente){
+        return (buscarVehiculoPorPatente(patente).getGarageAsignado() != null);
+    }
+    
+    @Override
+    public void asignarVehiculoGarage(String patente, int garage){
+        garageRepository = new GarageRepositoryFile();
+        Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
+        
+        for (Vehiculo v : vehiculos) {
+            if (v.getPatente() == vehiculo.getPatente()) {
+                v.asignarGarage(garageRepository.buscarGaragePorNumero(garage));
+                break; 
+            }
+        }
+        
+        guardarVehiculos(vehiculos);
+    }
+    
+        @Override
+    public void quitarVehiculoGarage(String patente){
+        Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
+        
+        for (Vehiculo v : vehiculos) {
+            if (v.getPatente()== vehiculo.getPatente()) {
+                v.removerGarage();
+                break; 
+            }
+        }
+        
+        guardarVehiculos(vehiculos);
+    }
+    
+    @Override
+    public void quitarGarageVehiculo(int numero){
+        garageRepository = new GarageRepositoryFile();
+        Vehiculo vehiculo = buscarVehiculoPorPatente(garageRepository.buscarGaragePorNumero(numero).getVehiculoOcupante().getPatente());
+        
+        for (Vehiculo v : vehiculos) {
+            if (v.getPatente()== vehiculo.getPatente()) {
+                v.removerGarage();
+                break; 
+            }
+        }
+        
+        guardarVehiculos(vehiculos);
+    }
+    
+    @Override
     public void mostrarVehiculo(Vehiculo vehiculo) {
             System.out.println("Patente: " + vehiculo.getPatente() +
                                " | Marca: " + vehiculo.getMarca() +
@@ -60,6 +111,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     
     @Override
     public void mostrarVehiculoGarage(Vehiculo vehiculo) {
+        garageRepository = new GarageRepositoryFile();
         System.out.println("=== Garaga del vehiculo ===");
         garageRepository.mostrarGarage(vehiculo.getGarageAsignado());
     }

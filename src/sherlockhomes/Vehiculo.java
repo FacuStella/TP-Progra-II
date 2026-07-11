@@ -1,8 +1,10 @@
 package sherlockhomes;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Vehiculo {
+public class Vehiculo implements Serializable {
+    private static final long serialVersionUID = 1L; 
 
     protected String matricula;
     protected String marca;
@@ -21,9 +23,9 @@ public class Vehiculo {
         this.propietario = propietario;
     }
 
-    public void asignarGarage(Garage garage, Date fecha) {
+    public void asignarGarage(Garage garage) {
         this.garageAsignado = garage;
-        this.fechaAsignacion = fecha;
+        this.fechaAsignacion = new Date();
     }
 
     public void removerGarage() {
@@ -32,7 +34,7 @@ public class Vehiculo {
     }
 
     public boolean tieneGarageAsignado() {
-        return garageAsignado != null;
+        return (garageAsignado != null);
     }
 
     public String getPatente() {

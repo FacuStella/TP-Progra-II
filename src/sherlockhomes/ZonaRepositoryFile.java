@@ -8,6 +8,10 @@ public class ZonaRepositoryFile implements ZonaRepository {
     ArrayList<Zona> zonas;
     GarageRepositoryFile garageRepository;
     
+    public ZonaRepositoryFile(){
+        garageRepository = new GarageRepositoryFile();
+    }
+    
     @Override
     public boolean crearZona(String letra, int contadorLuz, String ancho, String profundidad) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
