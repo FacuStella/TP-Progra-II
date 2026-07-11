@@ -3,7 +3,7 @@ package sherlockhomes;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class GarageUtils {
+public class GarageRepositoryFile {
     public static Garage buscarGaragePorNumero(ArrayList<Garage> garages, int numero) {
         for (Garage g : garages) {
             if (g.getNumeroGarage()== numero) {
@@ -21,7 +21,7 @@ public class GarageUtils {
                 " | Zona: " + garage.getZona().getLetra() +
                 (
                     (garage.getVehiculoOcupante() != null) ? 
-                    " | Vehiculo: " + garage.getVehiculoOcupante().getMarca() + " Patente: " + garage.getVehiculoOcupante().getMatricula() +
+                    " | Vehiculo: " + garage.getVehiculoOcupante().getMarca() + " Patente: " + garage.getVehiculoOcupante().getPatente() +
                     " | Propietario: " + garage.getPropietario().getNombre() + " DNI: " + garage.getPropietario().getDNI() 
                      : "")
                 );

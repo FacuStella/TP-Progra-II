@@ -10,45 +10,15 @@ import java.util.Scanner;
 import static sherlockhomes.TipoUsuario.*;
 
 public class Sistema {
-    protected ArrayList<Usuario> usuarios;
-    protected ArrayList<Empleado> empleados;
-    protected ArrayList<Socio> socios;
-    protected ArrayList<Vehiculo> vehiculos;
-    protected ArrayList<Garage> garages;
-    protected ArrayList<Zona> zonas;
     protected Usuario usuarioLogueado;
     protected Scanner sc;
-    
-    public Sistema (Scanner sc, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos, ArrayList<Garage> garages, ArrayList<Zona> zonas) {
-        this.usuarios = usuarios;
-        cargaListas(usuarios);
-        this.vehiculos = vehiculos;
-        this.garages = garages;
-        this.zonas = zonas;
+   
+    public Sistema (Scanner sc) {
         this.sc = sc;
     }
     
-    protected void cargaListas(ArrayList<Usuario> usuarios) {
-        socios = new ArrayList<>();
-        empleados = new ArrayList<>();
-
-        for (Usuario u : usuarios) {
-            switch(u){ 
-                case Socio s -> {
-                    socios.add(s); 
-                }
-                case Empleado e -> {
-                    empleados.add(e); 
-                }
-                default -> {
-                
-                }
-            }
-        }
-    }
-    
     public void iniciar() {  
-        cargaUsuario();
+        logueaUsuario();
         
         int accion;
         do{
@@ -57,9 +27,9 @@ public class Sistema {
         } while(accion != 0);
     }
     
-    protected void cargaUsuario() {
+    protected void logueaUsuario() {
         Login login = new Login();
-        usuarioLogueado = login.ingresar(sc, usuarios);
+        usuarioLogueado = login.ingresar(sc);
     }
     
     protected int mostrarMenu() {
@@ -104,9 +74,11 @@ public class Sistema {
             }
             case ADMINISTRADOR -> {
                 int opcAdm;
-                opcAdm = mostrarMenuAdmin(opcion);
-                AccionesAdmin accionesAdmin = new AccionesAdmin();
-                accionesAdmin.ejecutar(usuarios, socios, empleados, vehiculos, garages, zonas, usuarioLogueado, opcion, opcAdm, sc);
+                do{
+                    opcAdm = mostrarMenuAdmin(opcion);
+                    AccionesAdmin accionesAdmin = new AccionesAdmin();
+                    accionesAdmin.ejecutar(usuarioLogueado, opcion, opcAdm, sc);
+                } while(opcAdm != 0);
             }
         }
     }
