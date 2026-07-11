@@ -11,31 +11,34 @@ import sherlockhomes.Zona;
 
 public class AccionesAdmin {
 
-    public void ejecutar(ArrayList<Usuario> usuarios, ArrayList<Socio> socios, ArrayList<Empleado> empleados, ArrayList<Vehiculo> vehiculos, ArrayList<Garage> garages, ArrayList<Zona> zonas, Usuario usuarioLogueado, int opc, int opcAdm, Scanner sc) {
+    public void ejecutar(Usuario usuarioLogueado, int opc, int opcAdm, Scanner sc) {
        
         switch (opc) {
             case 1 -> {
                 AccionesAdminSocio accionesAdminSocio = new AccionesAdminSocio();
-                accionesAdminSocio.ejecutar(usuarios, socios, usuarioLogueado, opcAdm, sc);
+                accionesAdminSocio.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 2 -> {
                 AccionesAdminVehiculo accionesAdminVehiculo = new AccionesAdminVehiculo();
-                accionesAdminVehiculo.ejecutar(usuarios, socios, vehiculos, usuarioLogueado, opcAdm, sc);
+                accionesAdminVehiculo.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 3 -> {
                 System.out.println("Se gestionan garages.");
             }
             case 4 -> {
                 System.out.println("Se gestionan zonas.");
+                AccionesAdminSocio accionesAdminSocio = new AccionesAdminSocio();
+                accionesAdminSocio.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 5 -> {
-                System.out.println("Se gestionan empleados.");
+                AccionesAdminEmpleado accionesAdminEmpleado = new AccionesAdminEmpleado();
+                accionesAdminEmpleado.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 0 -> {
                 return;
             }
             default -> {
-                System.out.println("Opcion no reconocida.");
+                return;
             }
         }
     }

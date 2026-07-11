@@ -13,8 +13,8 @@ public class Vehiculo {
     private Garage garageAsignado;
     private Date fechaAsignacion;
 
-    public Vehiculo(String matricula, String marca, String tipo, String dimensiones, Socio propietario) {
-        this.matricula = matricula;
+    public Vehiculo(String patente, String marca, String tipo, String dimensiones, Socio propietario) {
+        this.matricula = patente;
         this.marca = marca;
         this.tipo = tipo;
         this.dimensiones = dimensiones;
@@ -35,7 +35,7 @@ public class Vehiculo {
         return garageAsignado != null;
     }
 
-    public String getMatricula() {
+    public String getPatente() {
         return matricula;
     }
 
