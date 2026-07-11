@@ -2,12 +2,7 @@ package acciones;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import sherlockhomes.Empleado;
-import sherlockhomes.Garage;
-import sherlockhomes.Socio;
 import sherlockhomes.Usuario;
-import sherlockhomes.Vehiculo;
-import sherlockhomes.Zona;
 
 public class AccionesAdmin {
 
@@ -23,12 +18,12 @@ public class AccionesAdmin {
                 accionesAdminVehiculo.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 3 -> {
-                System.out.println("Se gestionan garages.");
+                AccionesAdminGarage accionesAdminGarage = new AccionesAdminGarage();
+                accionesAdminGarage.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 4 -> {
-                System.out.println("Se gestionan zonas.");
-                AccionesAdminSocio accionesAdminSocio = new AccionesAdminSocio();
-                accionesAdminSocio.ejecutar(usuarioLogueado, opcAdm, sc);
+                AccionesAdminZona accionesAdminZona = new AccionesAdminZona();
+                accionesAdminZona.ejecutar(usuarioLogueado, opcAdm, sc);
             }
             case 5 -> {
                 AccionesAdminEmpleado accionesAdminEmpleado = new AccionesAdminEmpleado();

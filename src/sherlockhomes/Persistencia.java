@@ -79,7 +79,19 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("garages.dat"))) {
             return (ArrayList<Garage>) ois.readObject();
         } catch (Exception e) {
-            return new ArrayList<>(); 
+            ArrayList<Garage> garages = new ArrayList<>();
+            ArrayList<Zona> zonas = cargarZonas();
+
+            // 4 garages por cada zona
+            for (int i = 0; i < 4; i++) {
+                garages.add(new Garage(zonas.get(0)));
+                garages.add(new Garage(zonas.get(1)));
+                garages.add(new Garage(zonas.get(2)));
+                garages.add(new Garage(zonas.get(3)));
+                garages.add(new Garage(zonas.get(4)));
+            }
+            guardarGarages(garages);
+            return garages; 
         }
     }
     
@@ -95,7 +107,21 @@ public class Persistencia {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("zonas.dat"))) {
             return (ArrayList<Zona>) ois.readObject();
         } catch (Exception e) {
-            return new ArrayList<>(); 
+            Zona zonaA = new Zona("A", "Autos", 5, 3);
+            Zona zonaB = new Zona("B", "Motos", 3, 2);
+            Zona zonaC = new Zona("C", "Camionetas", 6, 4);
+            Zona zonaD = new Zona("D", "Camiones", 10, 6);
+            Zona zonaE = new Zona("E", "SUV", 7, 4);
+
+            ArrayList<Zona> zonas = new ArrayList<>();
+            zonas.add(zonaA);
+            zonas.add(zonaB);
+            zonas.add(zonaC);
+            zonas.add(zonaD);
+            zonas.add(zonaE);
+            
+            guardarZonas(zonas);
+            return zonas; 
         }
     }
 }

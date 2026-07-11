@@ -10,6 +10,10 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     protected ZonaRepositoryFile zoneRepository;
     protected VehiculoRepositoryFile vehicleRepository;
     
+    public EmpleadoRepositoryFile(){
+        userRepository = new UsuarioRepositoryFile();
+    }
+    
     @Override
     public boolean crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
         if(existeEmpleadoPorDni(DNI)){
@@ -26,6 +30,8 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public Empleado buscarEmpleadoPorDni(int dni) {
+        empleados = cargarEmpleados();
+        
         for (Empleado e : empleados) {
             if (e.getDNI() == dni) {
                 return e;
@@ -98,6 +104,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public void listarEmpleadosAll() {
+        empleados = cargarEmpleados();
         System.out.println("=== Lista de Empleados ===");
         for (Empleado e : empleados) {
             mostrarEmpleado(e);
@@ -114,12 +121,14 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public void listarEmpleadoVehiculos(Empleado empleado) {
+        vehicleRepository = new VehiculoRepositoryFile();
         System.out.println("=== Lista de vehiculos asignados del empleado "+empleado.getNombre()+" ===");
         vehicleRepository.listarVehiculos(empleado.getVehiculosAsignados());
     }
 
     @Override
     public void listarEmpleadoZonas(Empleado empleado) {
+        zoneRepository = new ZonaRepositoryFile();
         System.out.println("=== Lista de zonas del empleado "+empleado.getNombre()+" ===");
         zoneRepository.listarZonas(empleado.getZonasAsignadas());
     }
@@ -159,6 +168,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         }    
     }
     
+    @Override
     public void asignarEmpleadoZona(Empleado empleado, Zona zona){
         
     }

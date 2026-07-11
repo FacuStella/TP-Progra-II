@@ -1,8 +1,11 @@
 package sherlockhomes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Zona {
+public class Zona implements Serializable {
+    private static final long serialVersionUID = 1L; 
+    
     protected String letra;
     protected String tipoVehiculos;
     protected int numeroVehiculos;
@@ -10,6 +13,13 @@ public class Zona {
     protected int anchoGarage;
     protected ArrayList<Garage> garages;
     protected ArrayList<Empleado> empleados;
+    
+    public Zona(String letra, String tipoVehiculos, int profundidadGarage, int anchoGarage){
+        this.letra = letra;
+        this.tipoVehiculos = tipoVehiculos;
+        this.profundidadGarage = profundidadGarage;
+        this.anchoGarage = anchoGarage;
+    }
     
     public void agregarGarage(Garage garage) {
         garages.add(garage);
