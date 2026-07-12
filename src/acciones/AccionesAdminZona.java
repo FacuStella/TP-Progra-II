@@ -9,8 +9,8 @@ import sherlockhomes.ZonaRepositoryFile;
 
 public class AccionesAdminZona {
     
-    ZonaRepositoryFile zoneRepository;
-    VehiculoRepositoryFile vehicleRepository;
+    protected ZonaRepositoryFile zoneRepository;
+    protected VehiculoRepositoryFile vehicleRepository;
     
     public AccionesAdminZona(){
         zoneRepository = new ZonaRepositoryFile();

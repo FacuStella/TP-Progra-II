@@ -10,9 +10,9 @@ import sherlockhomes.VehiculoRepositoryFile;
 
 public class AccionesAdminVehiculo {
     
-    VehiculoRepositoryFile vehicleRepository;
-    SocioRepositoryFile associatedRepository;
-    GarageRepositoryFile garageRepository;
+    protected VehiculoRepositoryFile vehicleRepository;
+    protected SocioRepositoryFile associatedRepository;
+    protected GarageRepositoryFile garageRepository;
     
     public AccionesAdminVehiculo(){
         vehicleRepository = new VehiculoRepositoryFile();
