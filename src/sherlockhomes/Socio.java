@@ -24,7 +24,7 @@ public class Socio extends Usuario implements Serializable {
         vehiculos.add(vehiculo);
     }
 
-    public void removerVehiculo(Vehiculo vehiculo) {
+    public void quitarVehiculo(Vehiculo vehiculo) {
         vehiculos.remove(vehiculo);
     }
 
@@ -42,5 +42,13 @@ public class Socio extends Usuario implements Serializable {
 
     public Date getFechaIngreso() {
         return fechaIngreso;
+    }
+
+    void asignarVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    void asignarGarages(ArrayList<Garage> garages) {
+        this.garages = garages;
     }
 }

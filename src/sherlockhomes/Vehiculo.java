@@ -12,8 +12,10 @@ public class Vehiculo implements Serializable {
     protected String dimensiones;
     protected Socio propietario;
     
-    private Garage garageAsignado;
-    private Date fechaAsignacion;
+    protected Garage garageAsignado;
+    protected Date fechaAsignacion;
+    
+    protected Empleado empleadoAsignado;
 
     public Vehiculo(String patente, String marca, String tipo, String dimensiones, Socio propietario) {
         this.matricula = patente;
@@ -63,6 +65,18 @@ public class Vehiculo implements Serializable {
 
     public Date getFechaAsignacion() {
         return fechaAsignacion;
+    }
+
+    public Empleado getEmpleadoAsignado() {
+        return empleadoAsignado;
+    }
+
+    public void asignarEmpleado(Empleado empleadoAsignado) {
+        this.empleadoAsignado = empleadoAsignado;
+    }
+
+    void removerEmpleado() {
+        this.empleadoAsignado = null;
     }
     
 }

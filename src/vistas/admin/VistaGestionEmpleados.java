@@ -15,7 +15,8 @@ public class VistaGestionEmpleados extends Vista {
         System.out.println("3. Eliminar");
         System.out.println("4. Asignar zona");
         System.out.println("5. Asignar vehiculo");
-        System.out.println("6. Mostrar todos");
+        System.out.println("6. Mostrar vehiculos de empleado");
+        System.out.println("7. Mostrar todos");
         System.out.println("0. Salir");
     }
     

@@ -6,15 +6,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import sherlockhomes.EmpleadoRepositoryFile;
 import sherlockhomes.Usuario;
+import sherlockhomes.VehiculoRepositoryFile;
 import sherlockhomes.ZonaRepositoryFile;
 
 public class AccionesAdminEmpleado {
     
     protected EmpleadoRepositoryFile employeeRepository;
+    protected VehiculoRepositoryFile vehicleRepository;
     protected ZonaRepositoryFile zoneRepository;
     
     public AccionesAdminEmpleado(){
         employeeRepository = new EmpleadoRepositoryFile();
+        vehicleRepository = new VehiculoRepositoryFile();
         zoneRepository = new ZonaRepositoryFile();
     }
 
@@ -26,9 +29,10 @@ public class AccionesAdminEmpleado {
             case 3 -> eliminarEmpleado(sc);
             case 4 -> asignarEmpleadoZona(sc);
             case 5 -> asignarVehiculoEmpleado(sc);
-            case 6 -> employeeRepository.listarEmpleadosAll();
+            case 6 -> listarEmpleadoVehiculos(sc);
+            case 7 -> employeeRepository.listarEmpleadosAll();
             case 0 -> {}
-            default -> {}
+            default -> System.out.println("Opcion no reconocida");
         }
     }
 
@@ -114,16 +118,14 @@ public class AccionesAdminEmpleado {
 
         switch(buscarPor){
             case 1 -> {
-                if(employeeRepository.modificarEmpleadoPorDni(aux, direccion, telefono, especialidad)){
+                    employeeRepository.modificarEmpleadoPorDni(aux, direccion, telefono, especialidad);
                     System.out.println("Se modificó existosamente el empleado.");
                     employeeRepository.mostrarEmpleadoPorDni(aux);
-                };
             }
             case 2 ->{
-                if(employeeRepository.modificarEmpleadoPorCodigo(aux, direccion, telefono, especialidad)){
+                    employeeRepository.modificarEmpleadoPorCodigo(aux, direccion, telefono, especialidad);
                     System.out.println("Se modificó existosamente el empleado.");
                     employeeRepository.mostrarEmpleadoPorCodigo(aux);
-                }
             }
             default -> {}
         }
@@ -171,6 +173,43 @@ public class AccionesAdminEmpleado {
             System.out.println("No existe la zona con letra " + letra + ".");
             return;
         }
+        
+        
+    }
+
+    private void asignarVehiculoEmpleado(Scanner sc) {
+        System.out.println("=== Asignar vehículo a empleado ===");
+        
+        employeeRepository.listarEmpleadosAll();
+        
+        System.out.println("Ingrese codigo: ");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+
+        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+            System.out.println("El empleado no existe.");
+            return;
+        }
+        
+        vehicleRepository.listarVehiculosAll();
+        
+        System.out.println("Ingrese patente: ");
+        String patente = sc.nextLine();
+
+        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+            System.out.println("El vehiculo no existe.");
+            return;
+        }
+        
+        if(vehicleRepository.tieneEmpleadoAsignado(patente)){
+            vehicleRepository.quitarVehiculoEmpleado(patente);
+        }
+        
+        vehicleRepository.asignarVehiculoEmpleado(patente,employeeRepository.buscarEmpleadoPorCodigo(codigo));
+        employeeRepository.asignarEmpleadoVehiculo(codigo,vehicleRepository.buscarVehiculoPorPatente(patente));
+    }
+
+    private void listarEmpleadoVehiculos(Scanner sc) {
         int aux;
         switch(menuBusquedaEmpleado(sc)){
             case 1 -> {
@@ -178,7 +217,7 @@ public class AccionesAdminEmpleado {
                 aux = sc.nextInt();
                 sc.nextLine();
                 if(employeeRepository.existeEmpleadoPorDni(aux)){
-                    employeeRepository.asignarEmpleadoZona(employeeRepository.buscarEmpleadoPorDni(aux), zoneRepository.buscarZonaPorLetra(letra));
+                    employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarEmpleadoPorDni(aux));
                 }
             }
             case 2 ->{
@@ -186,7 +225,7 @@ public class AccionesAdminEmpleado {
                 aux = sc.nextInt();
                 sc.nextLine();
                 if(employeeRepository.existeEmpleadoPorCodigo(aux)){
-                    employeeRepository.asignarEmpleadoZona(employeeRepository.buscarEmpleadoPorCodigo(aux), zoneRepository.buscarZonaPorLetra(letra));
+                    employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarEmpleadoPorCodigo(aux));
                 }
             }
             default -> {
@@ -194,9 +233,30 @@ public class AccionesAdminEmpleado {
             }
         }
     }
-
-    private void asignarVehiculoEmpleado(Scanner sc) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    private void listarEmpleadoZonas(Scanner sc) {
+        int aux;
+        switch(menuBusquedaEmpleado(sc)){
+            case 1 -> {
+                System.out.println("Ingrese DNI: ");
+                aux = sc.nextInt();
+                sc.nextLine();
+                if(employeeRepository.existeEmpleadoPorDni(aux)){
+                    employeeRepository.listarEmpleadoZonas(employeeRepository.buscarEmpleadoPorDni(aux));
+                }
+            }
+            case 2 ->{
+                System.out.println("Ingrese codigo: ");
+                aux = sc.nextInt();
+                sc.nextLine();
+                if(employeeRepository.existeEmpleadoPorCodigo(aux)){
+                    employeeRepository.listarEmpleadoZonas(employeeRepository.buscarEmpleadoPorCodigo(aux));
+                }
+            }
+            default -> {
+                return;
+            }
+        }
     }
      
 }

@@ -40,12 +40,20 @@ public class Empleado extends Usuario implements Serializable {
         zonasAsignadas.add(zona);
     }
     
+    public void asignarZonas(ArrayList<Zona> zonas) {
+        this.zonasAsignadas = zonas;
+    }
+    
     public ArrayList<Vehiculo> getVehiculosAsignados() {
         return vehiculosAsignados; 
     }
     
     public void asignarVehiculo(Vehiculo vehiculo) {
         vehiculosAsignados.add(vehiculo);
+    }
+    
+    public void asignarVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculosAsignados = vehiculos;
     }
     
 }

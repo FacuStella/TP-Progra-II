@@ -6,7 +6,9 @@ public interface SocioRepository {
     public boolean crearSocio(String nombre, int dni, String direccion, String telefono);
     public Socio buscarSocioPorDni(int DNI);
     public boolean existeSocioPorDni(int DNI);
-    public boolean modificarSocioPorDni(int DNI, String direccion, String telefono);
+    public void modificarSocioPorDni(int DNI, String direccion, String telefono);
+    public void asignarSocioVehiculo(int DNI, Vehiculo vehiculo);
+    public void quitarVehiculoPorPatente(String patente);
     public void mostrarSocio(Socio socio);
     public void mostrarSocioPorDni(int DNI);
     public void listarSociosAll();

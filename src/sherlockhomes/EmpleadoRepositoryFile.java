@@ -54,34 +54,48 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public boolean existeEmpleadoPorDni(int DNI){
-        return buscarEmpleadoPorDni(DNI) == null ? false : true;
+        return (buscarEmpleadoPorDni(DNI) != null);
     }
     
     @Override
     public boolean existeEmpleadoPorCodigo(int codigo){
-        return buscarEmpleadoPorCodigo(codigo) == null ? false : true;
+        return (buscarEmpleadoPorCodigo(codigo) != null);
     }
     
     @Override
-    public boolean modificarEmpleadoPorDni(int DNI, String direccion, String telefono, String especialidad){
+    public void modificarEmpleadoPorDni(int DNI, String direccion, String telefono, String especialidad){
         empleados = cargarEmpleados();
         
-        Empleado empleadoAux;
+        Empleado empleado =  buscarEmpleadoPorDni(DNI);
         
-        empleadoAux = buscarEmpleadoPorDni(DNI);
-        
-        if(!direccion.isBlank()){empleadoAux.setDireccion(direccion);}
-        if(!direccion.isBlank()){empleadoAux.setTelefono(telefono);}
-        if(!especialidad.isBlank()){empleadoAux.setEspecialidad(especialidad);}
+        if(!direccion.isBlank()){empleado.setDireccion(direccion);}
+        if(!direccion.isBlank()){empleado.setTelefono(telefono);}
+        if(!especialidad.isBlank()){empleado.setEspecialidad(especialidad);}
           
-        userRepository.modificarEmpleado(empleadoAux);
-        
-        return true;
+        userRepository.modificarEmpleado(empleado);
     }
     
     @Override
-    public boolean modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad){
-        return buscarEmpleadoPorCodigo(codigo) == null ? false : true;
+    public void modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad){
+        modificarEmpleadoPorDni(buscarEmpleadoPorCodigo(codigo).getDNI(),direccion, telefono, especialidad);
+    }
+    
+    @Override
+    public void asignarEmpleadoZona(int codigo, Zona zona){
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.asignarZona(zona);
+        
+        userRepository.modificarEmpleado(empleado);
+    }
+    
+    @Override
+    public void asignarEmpleadoVehiculo(int codigo, Vehiculo vehiculo){
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.asignarVehiculo(vehiculo);
+        
+        userRepository.modificarEmpleado(empleado);
     }
     
     @Override
@@ -122,14 +136,12 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void listarEmpleadoVehiculos(Empleado empleado) {
         vehicleRepository = new VehiculoRepositoryFile();
-        System.out.println("=== Lista de vehiculos asignados del empleado "+empleado.getNombre()+" ===");
         vehicleRepository.listarVehiculos(empleado.getVehiculosAsignados());
     }
 
     @Override
     public void listarEmpleadoZonas(Empleado empleado) {
         zoneRepository = new ZonaRepositoryFile();
-        System.out.println("=== Lista de zonas del empleado "+empleado.getNombre()+" ===");
         zoneRepository.listarZonas(empleado.getZonasAsignadas());
     }
 
@@ -168,8 +180,5 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         }    
     }
     
-    @Override
-    public void asignarEmpleadoZona(Empleado empleado, Zona zona){
-        
-    }
+ 
 }
