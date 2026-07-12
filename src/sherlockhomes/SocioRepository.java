@@ -11,8 +11,9 @@ public interface SocioRepository {
     public void mostrarSocioPorDni(int DNI);
     public void listarSociosAll();
     public void listarSocios(ArrayList<Socio> socios);
-    public void eliminarSocio(Socio socio);
-    public boolean eliminarSocioPorDni(int DNI);
     public void listarSocioVehiculos(Socio socio);
     public void listarSocioGarages(Socio socio);
+    public void eliminarSocio(Socio socio);
+    public boolean eliminarSocioPorDni(int DNI);
+
 }

@@ -1,8 +1,12 @@
 package sherlockhomes;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Garage {
+public class Garage implements Serializable {
+    private static final long serialVersionUID = 1L; 
+    
+    private static int contadorGarage = 0; 
     protected int numeroGarage;
     protected double lecturaContadorLuz;
     protected boolean mantenimientoContratado;
@@ -12,26 +16,13 @@ public class Garage {
     protected Socio propietario;
     protected Date fechaCompra;
     
-    public Garage(int numeroGarage, double lecturaContadorLuz, boolean mantenimientoContratado) {
-        this.numeroGarage = numeroGarage;
-        this.lecturaContadorLuz = lecturaContadorLuz;
-        this.mantenimientoContratado = mantenimientoContratado;
+    public Garage(Zona zona) {
+        this.numeroGarage = contadorGarage++;
+        this.lecturaContadorLuz = 0;
+        this.mantenimientoContratado = false;
+        this.zona = zona;
     }
     
-     public void asignarPropietario(Socio socio, Date fechaCompra) {
-        this.propietario = socio;
-        this.fechaCompra = fechaCompra;
-    }
-
-    public void removerPropietario() {
-        this.propietario = null;
-        this.fechaCompra = null;
-    }
-
-    public boolean tienePropietario() {
-        return propietario != null;
-    }
-
     public int getNumeroGarage() {
         return numeroGarage;
     }
@@ -39,11 +30,7 @@ public class Garage {
     public double getLecturaContadorLuz() {
         return lecturaContadorLuz;
     }
-
-    public boolean isMantenimientoContratado() {
-        return mantenimientoContratado;
-    }
-
+    
     public Vehiculo getVehiculoOcupante() {
         return vehiculoOcupante;
     }
@@ -55,10 +42,35 @@ public class Garage {
     public Socio getPropietario() {
         return propietario;
     }
-
+    
     public Date getFechaCompra() {
         return fechaCompra;
     }
     
+    public boolean isMantenimientoContratado() {
+        return mantenimientoContratado;
+    }
     
+    public boolean tienePropietario() {
+        return (propietario != null);
+    }
+    
+     public void asignarPropietario(Socio socio) {
+        this.propietario = socio;
+        this.fechaCompra = new Date();
+    }
+
+    public void removerPropietario() {
+        this.propietario = null;
+        this.fechaCompra = null;
+    }
+    
+    public void asignarVehiculo(Vehiculo vehiculo) {
+        this.vehiculoOcupante = vehiculo;
+    }
+
+    public void removerVehiculo() {
+        this.vehiculoOcupante = null;
+    }
+
 }

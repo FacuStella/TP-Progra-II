@@ -9,6 +9,8 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
     
     ArrayList<Usuario> usuarios;
     
+    public UsuarioRepositoryFile(){}
+    
     @Override
     public void agregarUsuario(Usuario usuario) {
         usuarios = cargarUsuarios();
