@@ -32,7 +32,7 @@ public class AccionesAdminGarage {
             case 4 -> comprarGarage(sc);
             case 5 -> garageRepository.listarGaragesAll();
             case 0 -> {}
-            default -> {}
+            default -> System.out.println("Opcion no reconocida");
         }
     }
 

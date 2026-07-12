@@ -21,9 +21,11 @@ public class AccionesAdminSocio {
             case 1 -> registrarSocio(sc);
             case 2 -> modificarSocio(sc);
             case 3 -> eliminarSocio(sc);
-            case 4 -> associatedRepository.listarSociosAll();
+            case 4 -> listarSocioVehiculos(sc);
+            case 5 -> listarSocioGarages(sc);
+            case 6 -> associatedRepository.listarSociosAll();
             case 0 -> {}
-            default -> {}
+            default -> System.out.println("Opcion no reconocida");
         }
     }
     
@@ -34,8 +36,13 @@ public class AccionesAdminSocio {
         String nombre = sc.nextLine();
 
         System.out.print("Ingrese DNI: ");
-        int dni = sc.nextInt();
+        int DNI = sc.nextInt();
         sc.nextLine();
+        
+        if(associatedRepository.existeSocioPorDni(DNI)){
+            System.out.println("Socio ya existe.");
+            return;
+        }
 
         System.out.print("Ingrese dirección: ");
         String direccion = sc.nextLine();
@@ -43,9 +50,9 @@ public class AccionesAdminSocio {
         System.out.print("Ingrese teléfono: ");
         String telefono = sc.nextLine();
 
-        if (associatedRepository.crearSocio(nombre, dni, direccion, telefono)) {
+        if (associatedRepository.crearSocio(nombre, DNI, direccion, telefono)) {
             System.out.println("Se agregó el socio exitosamente.");
-            associatedRepository.mostrarSocioPorDni(dni);
+            associatedRepository.mostrarSocioPorDni(DNI);
         } else {
             System.out.println("Fallo registro de socio.");
         }
@@ -86,5 +93,33 @@ public class AccionesAdminSocio {
         associatedRepository.eliminarSocioPorDni(DNI);
 
         System.out.println("Se eliminó el socio DNI " + DNI + ".");
+    }
+
+    private void listarSocioVehiculos(Scanner sc) {
+        System.out.println("=== Muestra vehiculos de un socio ===");
+        System.out.print("Ingrese DNI: ");
+        int DNI = sc.nextInt();
+        sc.nextLine();
+
+        if(!associatedRepository.existeSocioPorDni(DNI)){
+            System.out.println("Socio no encontrado.");
+            return;
+        }
+        
+        associatedRepository.listarSocioVehiculos(associatedRepository.buscarSocioPorDni(DNI));
+    }
+    
+    private void listarSocioGarages(Scanner sc) {
+        System.out.println("=== Muestra garages de un socio ===");
+        System.out.print("Ingrese DNI: ");
+        int DNI = sc.nextInt();
+        sc.nextLine();
+
+        if(!associatedRepository.existeSocioPorDni(DNI)){
+            System.out.println("Socio no encontrado.");
+            return;
+        }
+        
+        associatedRepository.listarSocioGarages(associatedRepository.buscarSocioPorDni(DNI));
     }
 }

@@ -50,6 +50,8 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
                 Socio socioAux = (Socio) u;
                 socioAux.setTelefono(socio.getTelefono());
                 socioAux.setDireccion(socio.getDireccion());
+                socioAux.asignarVehiculos(socio.getVehiculos());
+                socioAux.asignarGarages(socio.getGarages());
                 break; 
             }
         }
@@ -66,6 +68,8 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
                 empleadoAux.setTelefono(empleado.getTelefono());
                 empleadoAux.setDireccion(empleado.getDireccion());
                 empleadoAux.setEspecialidad(empleado.getEspecialidad());
+                empleadoAux.asignarVehiculos(empleado.getVehiculosAsignados());
+                empleadoAux.asignarZonas(empleado.getZonasAsignadas());
                 break; 
             }
         }

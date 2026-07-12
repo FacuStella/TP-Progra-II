@@ -49,23 +49,42 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public boolean existeSocioPorDni(int DNI) {
-        return (buscarSocioPorDni(DNI) == null);
+        return (buscarSocioPorDni(DNI) != null);
     }
     
     @Override
-    public boolean modificarSocioPorDni(int DNI, String direccion, String telefono) {
+    public void modificarSocioPorDni(int DNI, String direccion, String telefono) {
         socios = cargarSocios();
         
-        Socio socioAux;
+        Socio socio = buscarSocioPorDni(DNI);
         
-        socioAux = buscarSocioPorDni(DNI);
-        
-        if(!direccion.isBlank()){socioAux.setDireccion(direccion);}
-        if(!direccion.isBlank()){socioAux.setTelefono(telefono);}
+        if(!direccion.isBlank()){socio.setDireccion(direccion);}
+        if(!direccion.isBlank()){socio.setTelefono(telefono);}
 
-        userRepository.modificarSocio(socioAux);
+        userRepository.modificarSocio(socio);
+    }
+    
+    public void asignarSocioVehiculo(int DNI, Vehiculo vehiculo){
+        socios = cargarSocios();
         
-        return true;
+        Socio socio = buscarSocioPorDni(DNI);
+        
+        socio.agregarVehiculo(vehiculo);
+        
+        userRepository.modificarSocio(socio);
+    }
+    
+    @Override
+    public void quitarVehiculoPorPatente(String patente){
+        vehicleRepository = new VehiculoRepositoryFile();
+        
+        Vehiculo vehiculo = vehicleRepository.buscarVehiculoPorPatente(patente);
+        
+        Socio socio = vehiculo.getPropietario();
+                
+        socio.quitarVehiculo(vehiculo);
+        
+        userRepository.modificarSocio(socio);
     }
     
     @Override
@@ -102,14 +121,12 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public void listarSocioVehiculos(Socio socio) {
         vehicleRepository = new VehiculoRepositoryFile();
-        System.out.println("=== Lista de Vehiculos del Socio "+socio.getNombre()+" ===");
         vehicleRepository.listarVehiculos(socio.getVehiculos());
     }
     
     @Override
     public void listarSocioGarages(Socio socio) {
         garageRepository = new GarageRepositoryFile();
-        System.out.println("=== Lista de Garages del Socio "+socio.getNombre()+" ===");
         garageRepository.listarGarages(socio.getGarages());
     }
 

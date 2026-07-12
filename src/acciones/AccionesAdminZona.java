@@ -25,7 +25,7 @@ public class AccionesAdminZona {
             case 3 -> quitarEmpleado(sc);
             case 4 -> zoneRepository.listarZonasAll();
             case 0 -> {}
-            default -> {}
+            default -> System.out.println("Opcion no reconocida");
         }
     }
 
