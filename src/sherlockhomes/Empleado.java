@@ -13,8 +13,8 @@ public class Empleado extends Usuario implements Serializable {
     protected ArrayList<Zona> zonasAsignadas;
     protected ArrayList<Vehiculo> vehiculosAsignados;
 
-    public Empleado(String nombre, int DNI, String direccion, String telefono, String especialidad) {
-        super(nombre, DNI, direccion, telefono, nombre+"Emp",String.format("%04d", DNI % 10000), EMPLEADO);
+    public Empleado(int id, String nombre, int DNI, String direccion, String telefono, String especialidad) {
+        super(id, nombre, DNI, direccion, telefono, nombre+"Emp",String.format("%04d", DNI % 10000), EMPLEADO);
         this.codigo = contadorCodigo++;
         this.especialidad = especialidad;
         this.zonasAsignadas = new ArrayList();

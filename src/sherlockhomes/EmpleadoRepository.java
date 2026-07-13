@@ -3,7 +3,7 @@ package sherlockhomes;
 import java.util.ArrayList;
 
 public interface EmpleadoRepository {
-    public boolean crearEmpleado(String nombre, int dni, String direccion, String telefono, String especialidad);
+    public void crearEmpleado(String nombre, int dni, String direccion, String telefono, String especialidad);
     public Empleado buscarEmpleadoPorDni(int DNI);
     public Empleado buscarEmpleadoPorCodigo(int codigo);
     public boolean existeEmpleadoPorDni(int DNI);

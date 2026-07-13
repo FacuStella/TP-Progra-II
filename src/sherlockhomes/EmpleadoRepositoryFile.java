@@ -15,17 +15,12 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
     
     @Override
-    public boolean crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
-        if(existeEmpleadoPorDni(DNI)){
-            System.out.println("Ya existe el empleado DNI " + DNI + ".");
-            return false;
-        } else {
-                Empleado empleado = new Empleado(nombre, DNI, direccion, telefono, especialidad);
+    public void crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
+        int ultimoId = userRepository.ultimoUsuario();
+        
+        Empleado empleado = new Empleado(ultimoId, nombre, DNI, direccion, telefono, especialidad);
 
-                userRepository.agregarUsuario(empleado);
-                
-                return true;
-        }
+        userRepository.agregarUsuario(empleado);
     }
     
     @Override

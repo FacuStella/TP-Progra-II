@@ -12,6 +12,13 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
     public UsuarioRepositoryFile(){}
     
     @Override
+    public int ultimoUsuario() {
+        usuarios = cargarUsuarios();
+        
+        return usuarios.get(usuarios.size() - 1).getId();
+    }
+    
+    @Override
     public void agregarUsuario(Usuario usuario) {
         usuarios = cargarUsuarios();
         

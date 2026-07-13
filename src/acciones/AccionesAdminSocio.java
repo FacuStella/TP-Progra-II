@@ -50,11 +50,12 @@ public class AccionesAdminSocio {
         System.out.print("Ingrese teléfono: ");
         String telefono = sc.nextLine();
 
-        if (associatedRepository.crearSocio(nombre, DNI, direccion, telefono)) {
+        try{ 
+            associatedRepository.crearSocio(nombre, DNI, direccion, telefono);
             System.out.println("Se agregó el socio exitosamente.");
             associatedRepository.mostrarSocioPorDni(DNI);
-        } else {
-            System.out.println("Fallo registro de socio.");
+        } catch(Exception e) {
+            System.out.println("Fallo registro de socio." + e.getMessage());
         }
     }
 
