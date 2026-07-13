@@ -28,9 +28,12 @@ public class AccionesAdminEmpleado {
             case 2 -> modificarEmpleado(sc);
             case 3 -> eliminarEmpleado(sc);
             case 4 -> asignarEmpleadoZona(sc);
-            case 5 -> asignarVehiculoEmpleado(sc);
-            case 6 -> listarEmpleadoVehiculos(sc);
-            case 7 -> employeeRepository.listarEmpleadosAll();
+            case 5 -> quitarEmpleadoZona(sc);
+            case 6 -> listarEmpleadoZonas(sc);
+            case 7 -> asignarVehiculoEmpleado(sc);
+            case 8 -> quitarEmpleadoVehiculo(sc);
+            case 9 -> listarEmpleadoVehiculos(sc);
+            case 10 -> employeeRepository.listarEmpleadosAll();
             case 0 -> {}
             default -> System.out.println("Opcion no reconocida");
         }
@@ -175,7 +178,19 @@ public class AccionesAdminEmpleado {
             return;
         }
         
+        System.out.println("Ingrese codigo de empleado a asignar: ");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+
+        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+            System.out.println("El empleado no existe.");
+            return;
+        }
         
+        zoneRepository.asignarZonaEmpleado(letra, codigo);
+        employeeRepository.asignarEmpleadoZona(codigo, zoneRepository.buscarZonaPorLetra(letra));
+        
+        System.out.println("Empleado asignado exitosamente.");
     }
 
     private void asignarVehiculoEmpleado(Scanner sc) {
@@ -208,6 +223,7 @@ public class AccionesAdminEmpleado {
         
         vehicleRepository.asignarVehiculoEmpleado(patente,employeeRepository.buscarEmpleadoPorCodigo(codigo));
         employeeRepository.asignarEmpleadoVehiculo(codigo,vehicleRepository.buscarVehiculoPorPatente(patente));
+        // falta modificar el objeto VehiculoAsignado de Garage
     }
 
     private void listarEmpleadoVehiculos(Scanner sc) {
@@ -258,6 +274,62 @@ public class AccionesAdminEmpleado {
                 return;
             }
         }
+    }
+
+    private void quitarEmpleadoZona(Scanner sc) {
+        System.out.println("=== Quitar de zona a empleado ===");
+        
+        System.out.println("Ingrese codigo de empleado: ");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+
+        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+            System.out.println("El empleado no existe.");
+            return;
+        }
+        
+        employeeRepository.listarEmpleadoZonas(employeeRepository.buscarEmpleadoPorCodigo(codigo));
+                
+        System.out.print("Ingrese letra de la zona que quiere quitar: ");
+        String letra = sc.nextLine();
+
+        if(!zoneRepository.existeZonaPorLetra(letra)){
+            System.out.println("No existe la zona con letra " + letra + ".");
+            return;
+        }
+        
+        zoneRepository.quitarZonaEmpleado(letra, employeeRepository.buscarEmpleadoPorCodigo(codigo));
+        employeeRepository.quitarEmpleadoZona(codigo, zoneRepository.buscarZonaPorLetra(letra));
+        
+        System.out.println("Empleado desasignado exitosamente.");
+    }
+
+    private void quitarEmpleadoVehiculo(Scanner sc) {
+        System.out.println("=== Quitar vehiculo a empleado ===");
+        
+        System.out.println("Ingrese codigo de empleado: ");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+
+        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+            System.out.println("El empleado no existe.");
+            return;
+        }
+        
+        employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarEmpleadoPorCodigo(codigo));
+                
+        System.out.print("Ingrese patente a quitar: ");
+        String patente = sc.nextLine();
+
+        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+            System.out.println("No existe vehiculo.");
+            return;
+        }
+        
+        vehicleRepository.quitarVehiculoEmpleado(patente);
+        employeeRepository.quitarEmpleadoVehiculo(codigo, vehicleRepository.buscarVehiculoPorPatente(patente));
+        
+        System.out.println("Vehiculo desasignado exitosamente.");
     }
      
 }

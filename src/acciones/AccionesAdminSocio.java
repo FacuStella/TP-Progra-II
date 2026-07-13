@@ -90,6 +90,11 @@ public class AccionesAdminSocio {
         System.out.println("Ingrese DNI: ");
         DNI = sc.nextInt();
         sc.nextLine();
+        
+        if(!associatedRepository.existeSocioPorDni(DNI)){
+            System.out.println("Socio no encontrado.");
+            return;
+        }
 
         associatedRepository.eliminarSocioPorDni(DNI);
 

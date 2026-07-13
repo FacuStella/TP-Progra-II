@@ -18,7 +18,9 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     public void crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
         int ultimoId = userRepository.ultimoUsuario();
         
-        Empleado empleado = new Empleado(ultimoId, nombre, DNI, direccion, telefono, especialidad);
+        int ultimoCodigo = ultimoEmpleado();
+        
+        Empleado empleado = new Empleado(ultimoId+1,ultimoCodigo+1, nombre, DNI, direccion, telefono, especialidad);
 
         userRepository.agregarUsuario(empleado);
     }
@@ -137,7 +139,16 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void listarEmpleadoZonas(Empleado empleado) {
         zoneRepository = new ZonaRepositoryFile();
-        zoneRepository.listarZonas(empleado.getZonasAsignadas());
+        for (Zona z : empleado.getZonasAsignadas()){
+            int vehiculosAsignadosZona = 0;
+            zoneRepository.mostrarZona(z);
+            for(Vehiculo v : empleado.getVehiculosAsignados()){
+                if(v.getGarageAsignado().getZona().equals(z.getLetra())){
+                    vehiculosAsignadosZona++;
+                }
+            }
+            System.out.println("Vehiculos asignados:" + vehiculosAsignadosZona);
+        }
     }
 
     @Override
@@ -174,6 +185,34 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
             return false;
         }    
     }
+
+    @Override
+    public void quitarEmpleadoZona(int codigo, Zona zona) {
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.quitarZona(zona);
+        
+        userRepository.modificarEmpleado(empleado);
+    }
     
- 
+    @Override
+    public void quitarEmpleadoVehiculo(int codigo, Vehiculo vehiculo) {
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.quitarVehiculo(vehiculo);
+        
+        userRepository.modificarEmpleado(empleado);
+    }
+    
+    @Override
+    public int ultimoEmpleado() {
+        empleados = cargarEmpleados();
+        
+        if (empleados.isEmpty()) {
+            return 0;
+        }
+
+        return empleados.get(empleados.size() - 1).getCodigo();
+    }
+    
 }
