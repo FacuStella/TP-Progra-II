@@ -10,7 +10,7 @@ public class Vista {
         
         input = sc.nextLine();
 
-        if (input.matches("\\d{1}")) {
+        if (input.matches("\\d{1,2}")) {
             opcion = Integer.parseInt(input);
         }   
         

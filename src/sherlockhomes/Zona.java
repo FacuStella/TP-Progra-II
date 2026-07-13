@@ -28,6 +28,10 @@ public class Zona implements Serializable {
     public void asignarEmpleado(Empleado empleado) {
         empleados.add(empleado);
     }
+    
+    public void quitarEmpleado(Empleado empleado) {
+        empleados.remove(empleado);
+    }
 
     public ArrayList<Garage> getGarages() {
         return garages;

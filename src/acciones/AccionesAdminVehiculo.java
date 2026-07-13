@@ -82,6 +82,11 @@ public class AccionesAdminVehiculo {
             return;
         }
         
+        if(!associatedRepository.tieneGarages(vehicleRepository.buscarVehiculoPorPatente(patente).getPropietario())){
+            System.out.println("El socio no tiene garages.");
+            return;
+        }
+        
         associatedRepository.listarSocioGarages(vehicleRepository.buscarVehiculoPorPatente(patente).getPropietario());
         
         System.out.println("Ingrese numero gge: ");

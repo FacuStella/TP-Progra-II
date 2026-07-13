@@ -19,7 +19,7 @@ public class SocioRepositoryFile implements SocioRepository {
     public void crearSocio(String nombre, int DNI, String direccion, String telefono){
         int ultimoId = userRepository.ultimoUsuario();
         
-        Socio socio = new Socio(ultimoId, nombre, DNI, direccion, telefono);
+        Socio socio = new Socio(ultimoId+1, nombre, DNI, direccion, telefono);
 
         userRepository.agregarUsuario(socio);
     }
@@ -142,5 +142,10 @@ public class SocioRepositoryFile implements SocioRepository {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    
+    @Override
+    public boolean tieneGarages(Socio propietario) {
+        return (propietario.getGarages() != null);
     }
 }

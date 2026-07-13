@@ -18,5 +18,5 @@ public interface SocioRepository {
     public void listarSocioGarages(Socio socio);
     public void eliminarSocio(Socio socio);
     public void eliminarSocioPorDni(int DNI);
-
+    public boolean tieneGarages(Socio propietario);
 }

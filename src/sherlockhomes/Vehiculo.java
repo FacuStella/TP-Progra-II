@@ -25,20 +25,6 @@ public class Vehiculo implements Serializable {
         this.propietario = propietario;
     }
 
-    public void asignarGarage(Garage garage) {
-        this.garageAsignado = garage;
-        this.fechaAsignacion = new Date();
-    }
-
-    public void removerGarage() {
-        this.garageAsignado = null;
-        this.fechaAsignacion = null;
-    }
-
-    public boolean tieneGarageAsignado() {
-        return (garageAsignado != null);
-    }
-
     public String getPatente() {
         return matricula;
     }
@@ -70,7 +56,22 @@ public class Vehiculo implements Serializable {
     public Empleado getEmpleadoAsignado() {
         return empleadoAsignado;
     }
+    
+    
+    public void asignarGarage(Garage garage) {
+        this.garageAsignado = garage;
+        this.fechaAsignacion = new Date();
+    }
 
+    public void removerGarage() {
+        this.garageAsignado = null;
+        this.fechaAsignacion = null;
+    }
+
+    public boolean tieneGarageAsignado() {
+        return (garageAsignado != null);
+    }
+    
     public void asignarEmpleado(Empleado empleadoAsignado) {
         this.empleadoAsignado = empleadoAsignado;
     }
@@ -79,4 +80,7 @@ public class Vehiculo implements Serializable {
         this.empleadoAsignado = null;
     }
     
+    public boolean tieneEmpleadoAsignado() {
+        return (empleadoAsignado != null);
+    }
 }

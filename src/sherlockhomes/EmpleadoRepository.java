@@ -3,6 +3,7 @@ package sherlockhomes;
 import java.util.ArrayList;
 
 public interface EmpleadoRepository {
+    public int ultimoEmpleado();
     public void crearEmpleado(String nombre, int dni, String direccion, String telefono, String especialidad);
     public Empleado buscarEmpleadoPorDni(int DNI);
     public Empleado buscarEmpleadoPorCodigo(int codigo);
@@ -12,6 +13,8 @@ public interface EmpleadoRepository {
     public void modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad);
     public void asignarEmpleadoZona(int codigo, Zona zona);
     public void asignarEmpleadoVehiculo(int codigo, Vehiculo vehiculo);
+    public void quitarEmpleadoZona(int codigo, Zona zona);
+    public void quitarEmpleadoVehiculo(int codigo, Vehiculo vehiculo);
     public void mostrarEmpleado(Empleado empleado);
     public void mostrarEmpleadoPorDni(int DNI);
     public void mostrarEmpleadoPorCodigo(int codigo);

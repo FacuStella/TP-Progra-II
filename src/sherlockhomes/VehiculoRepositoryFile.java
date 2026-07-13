@@ -75,7 +75,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
         Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
         
         for (Vehiculo v : vehiculos) {
-            if (v.getPatente()== vehiculo.getPatente()) {
+            if (v.getPatente().equals(vehiculo.getPatente())) {
                 v.removerGarage();
                 break; 
             }
@@ -90,7 +90,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
         Vehiculo vehiculo = buscarVehiculoPorPatente(garageRepository.buscarGaragePorNumero(numero).getVehiculoOcupante().getPatente());
         
         for (Vehiculo v : vehiculos) {
-            if (v.getPatente()== vehiculo.getPatente()) {
+            if (v.getPatente().equals(vehiculo.getPatente())) {
                 v.removerGarage();
                 break; 
             }
