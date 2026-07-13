@@ -171,4 +171,10 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     public void eliminarVehiculoPorPatente(String patente) {
         eliminarVehiculo(buscarVehiculoPorPatente(patente));
     }
+
+    void eliminarSocio(Socio socioAux) {
+        for (Vehiculo v : socioAux.getVehiculos()){
+            eliminarVehiculo(v);
+        }
+    }
 }

@@ -69,12 +69,13 @@ public class AccionesAdminEmpleado {
 
         System.out.print("Ingrese Especialidad: ");
         String especialidad = sc.nextLine();
-
-        if(employeeRepository.crearEmpleado(nombre, DNI, direccion, telefono, especialidad)){
+        
+        try{
+            employeeRepository.crearEmpleado(nombre, DNI, direccion, telefono, especialidad);
             System.out.println("Se agregó el empleado exitosamente.");
             employeeRepository.mostrarEmpleadoPorDni(DNI);
-        } else {
-            System.out.println("Fallo registro de empleado.");
+        } catch(Exception e) {
+            System.out.println("Fallo registro de empleado." + e.getMessage());
         }
     }
 

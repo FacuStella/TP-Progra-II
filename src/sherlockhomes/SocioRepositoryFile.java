@@ -16,23 +16,12 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public boolean crearSocio(String nombre, int DNI, String direccion, String telefono){
-        socios = cargarSocios();
+    public void crearSocio(String nombre, int DNI, String direccion, String telefono){
+        int ultimoId = userRepository.ultimoUsuario();
         
-        Socio socioAux;
-        
-        socioAux = buscarSocioPorDni(DNI);
-        
-        if(socioAux != null){
-            System.out.println("Ya existe el socio DNI " + DNI + ".");
-            return false;
-        } else {
-                Socio socio = new Socio(nombre, DNI, direccion, telefono);
+        Socio socio = new Socio(ultimoId, nombre, DNI, direccion, telefono);
 
-                userRepository.agregarUsuario(socio);
-                
-                return true;
-        }
+        userRepository.agregarUsuario(socio);
     }
     
     @Override
@@ -54,12 +43,19 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public void modificarSocioPorDni(int DNI, String direccion, String telefono) {
-        socios = cargarSocios();
-        
         Socio socio = buscarSocioPorDni(DNI);
         
         if(!direccion.isBlank()){socio.setDireccion(direccion);}
         if(!direccion.isBlank()){socio.setTelefono(telefono);}
+
+        userRepository.modificarSocio(socio);
+    }
+    
+    @Override
+    public void comprarGarage(int DNI, Garage garage) {
+        Socio socio = buscarSocioPorDni(DNI);
+        
+        socio.comprarGarage(garage);
 
         userRepository.modificarSocio(socio);
     }
@@ -136,17 +132,15 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public boolean eliminarSocioPorDni(int DNI){
-        Socio socioAux;
+    public void eliminarSocioPorDni(int DNI){
+        Socio socio = buscarSocioPorDni(DNI);
         
-        socioAux = buscarSocioPorDni(DNI);
-        
-        if(socioAux != null){
-            eliminarSocio(socioAux);
-            return true;
-        } else {
-            System.out.println("No se encontró el socio DNI: "+ DNI +":");
-            return false;
-        }    
+        try{
+            garageRepository.eliminarSocio(socio);
+            vehicleRepository.eliminarSocio(socio);
+            eliminarSocio(socio);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

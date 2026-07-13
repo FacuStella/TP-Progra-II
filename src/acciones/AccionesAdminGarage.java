@@ -27,8 +27,8 @@ public class AccionesAdminGarage {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
             case 1 -> registrarGarage(sc); 
-            case 2 -> quitarGarageVehiculo(sc);
-            case 3 -> asignarGarageVehiculo(sc);
+            case 2 -> asignarGarageVehiculo(sc);
+            case 3 -> quitarGarageVehiculo(sc);
             case 4 -> comprarGarage(sc);
             case 5 -> garageRepository.listarGaragesAll();
             case 0 -> {}
@@ -46,12 +46,13 @@ public class AccionesAdminGarage {
             System.out.println("No existe la zona.");
             return;
         }
-
-        if(garageRepository.crearGarage(zoneRepository.buscarZonaPorLetra(letra))){
+        
+        try{
+            garageRepository.crearGarage(zoneRepository.buscarZonaPorLetra(letra));
             System.out.println("Se agregó el garage exitosamente.");
             //garageRepository.mostrarGaragePorNumero(patente);
-        } else {
-            System.out.println("Fallo carga de garage.");
+        } catch(Exception e) {
+            System.out.println("Error inesperado al crear el garage" + e.getMessage());
         }
     }
 
@@ -87,7 +88,12 @@ public class AccionesAdminGarage {
             System.out.println("El garage no existe.");
             return;
         }
-
+        
+        if(!garageRepository.tienePropietario(numero)){
+            System.out.println("El garage no tiene propietario, por tanto no puede asignarse.");
+            return;
+        }
+        
         asocciatedRepository.listarSocioVehiculos(garageRepository.buscarGaragePorNumero(numero).getPropietario());
         
         System.out.println("Ingrese patente: ");
@@ -107,6 +113,32 @@ public class AccionesAdminGarage {
     }
 
     private void comprarGarage(Scanner sc) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("=== Venta de garage ===");
+        
+        System.out.println("Ingrese numero gge: ");
+        int numero = sc.nextInt();
+        sc.nextLine();
+        
+        if(!garageRepository.existeGaragePorNumero(numero)){
+            System.out.println("El garage no existe.");
+            return;
+        }
+        
+        if(garageRepository.tienePropietario(numero)){
+            System.out.println("El garage tiene propietario, por tanto no puede comprarse.");
+            return;
+        }
+        
+        System.out.println("Ingrese DNI del socio que compra: ");
+        int DNI = sc.nextInt();
+        sc.nextLine();
+        
+        if(!asocciatedRepository.existeSocioPorDni(DNI)){
+            System.out.println("El socio no existe.");
+            return;
+        }
+        
+        asocciatedRepository.comprarGarage(DNI,garageRepository.buscarGaragePorNumero(numero));
+        garageRepository.comprarGarage(numero,asocciatedRepository.buscarSocioPorDni(DNI));
     }
 }
