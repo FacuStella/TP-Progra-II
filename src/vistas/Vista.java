@@ -24,7 +24,7 @@ public class Vista {
     }
 
     public void noReconocida() {
-                System.out.println("Opcion no reconocida.");
+        System.out.println("Opcion no reconocida.");
     }
     
 }

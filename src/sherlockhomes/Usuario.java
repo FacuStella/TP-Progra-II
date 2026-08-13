@@ -9,6 +9,10 @@ public class Usuario extends Persona implements Serializable {
     protected String username;
     protected String password;
     protected TipoUsuario tipoUsuario;
+    
+    public Usuario(String nombre, int DNI, String direccion, String telefono) {
+        super(nombre, DNI, direccion, telefono);
+    }
 
     public Usuario(int id, String nombre, int DNI, String direccion, String telefono, String username, String password, TipoUsuario tipoUsuario) {
         super(nombre, DNI, direccion, telefono);

@@ -16,16 +16,16 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public void crearSocio(String nombre, int DNI, String direccion, String telefono){
+    public void crear(Socio socio){
         int ultimoId = userRepository.ultimoUsuario();
         
-        Socio socio = new Socio(ultimoId+1, nombre, DNI, direccion, telefono);
+        Socio socioAux = new Socio(ultimoId+1, socio.getNombre(), socio.getDNI(), socio.getDireccion(), socio.getTelefono());
 
-        userRepository.agregarUsuario(socio);
+        userRepository.agregarUsuario(socioAux);
     }
     
     @Override
-    public Socio buscarSocioPorDni(int dni) {
+    public Socio buscarPorValor(Integer dni) {
         socios = cargarSocios();
         
         for (Socio s : socios) {
@@ -37,33 +37,33 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public boolean existeSocioPorDni(int DNI) {
-        return (buscarSocioPorDni(DNI) != null);
+    public boolean existePorValor(Integer dni) {
+        return (buscarPorValor(dni) != null);
     }
     
     @Override
-    public void modificarSocioPorDni(int DNI, String direccion, String telefono) {
-        Socio socio = buscarSocioPorDni(DNI);
+    public void modificarPorValor(Integer dni, Socio socio) {
+        Socio socioAux = buscarPorValor(dni);
         
-        if(!direccion.isBlank()){socio.setDireccion(direccion);}
-        if(!direccion.isBlank()){socio.setTelefono(telefono);}
+        if(!socio.getDireccion().isBlank()){socioAux.setDireccion(socio.getDireccion());}
+        if(!socio.getTelefono().isBlank()){socioAux.setTelefono(socio.getTelefono());}
 
-        userRepository.modificarSocio(socio);
+        userRepository.modificarSocio(socioAux);
     }
     
     @Override
-    public void comprarGarage(int DNI, Garage garage) {
-        Socio socio = buscarSocioPorDni(DNI);
+    public void comprarGarage(int dni, Garage garage) {
+        Socio socio = buscarPorValor(dni);
         
         socio.comprarGarage(garage);
 
         userRepository.modificarSocio(socio);
     }
     
-    public void asignarSocioVehiculo(int DNI, Vehiculo vehiculo){
+    public void asignarSocioVehiculo(int dni, Vehiculo vehiculo){
         socios = cargarSocios();
         
-        Socio socio = buscarSocioPorDni(DNI);
+        Socio socio = buscarPorValor(dni);
         
         socio.agregarVehiculo(vehiculo);
         
@@ -84,7 +84,7 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public void mostrarSocio(Socio socio) {
+    public void mostrar(Socio socio) {
         System.out.println("Nombre: " + socio.getNombre() +
                        " | DNI: " + socio.getDNI() +
                        " | Teléfono: " + socio.getTelefono() +
@@ -93,24 +93,24 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public void mostrarSocioPorDni(int DNI) {
-        mostrarSocio(buscarSocioPorDni(DNI));
+    public void mostrarPorValor(Integer dni) {
+        mostrar(buscarPorValor(dni));
     }
 
     @Override
-    public void listarSociosAll() {
+    public void listarAll() {
         socios = cargarSocios();
         System.out.println("=== Lista de Socios ===");
         for (Socio s : socios) {
-            mostrarSocio(s);
+            mostrar(s);
         }
     }
     
     @Override
-    public void listarSocios(ArrayList<Socio> socios) {
+    public void listar(ArrayList<Socio> socios) {
         System.out.println("=== Lista de Socios ===");
         for (Socio s : socios) {
-            mostrarSocio(s);
+            mostrar(s);
         }
     }
     
@@ -127,18 +127,18 @@ public class SocioRepositoryFile implements SocioRepository {
     }
 
     @Override
-    public void eliminarSocio(Socio socio) {
+    public void eliminar(Socio socio) {
         userRepository.eliminarUsuario(socio);
     }
     
     @Override
-    public void eliminarSocioPorDni(int DNI){
-        Socio socio = buscarSocioPorDni(DNI);
+    public void eliminarPorValor(Integer dni){
+        Socio socio = buscarPorValor(dni);
         
         try{
             garageRepository.eliminarSocio(socio);
             vehicleRepository.eliminarSocio(socio);
-            eliminarSocio(socio);
+            eliminar(socio);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

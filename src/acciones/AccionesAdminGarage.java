@@ -133,12 +133,12 @@ public class AccionesAdminGarage {
         int DNI = sc.nextInt();
         sc.nextLine();
         
-        if(!asocciatedRepository.existeSocioPorDni(DNI)){
+        if(!asocciatedRepository.existePorValor(DNI)){
             System.out.println("El socio no existe.");
             return;
         }
         
         asocciatedRepository.comprarGarage(DNI,garageRepository.buscarGaragePorNumero(numero));
-        garageRepository.comprarGarage(numero,asocciatedRepository.buscarSocioPorDni(DNI));
+        garageRepository.comprarGarage(numero,asocciatedRepository.buscarPorValor(DNI));
     }
 }
