@@ -57,13 +57,13 @@ public class AccionesAdminVehiculo {
         int DNI = sc.nextInt();
         sc.nextLine();
 
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.print("No existe el socio DNI " + DNI + ".");
             return;
         }
         
         try{
-            associatedRepository.asignarSocioVehiculo(DNI,vehicleRepository.crearVehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarSocioPorDni(DNI)));
+            associatedRepository.asignarSocioVehiculo(DNI,vehicleRepository.crearVehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarPorValor(DNI)));
             System.out.println("Se agregó el vehiculo exitosamente.");
             vehicleRepository.mostrarVehiculoPorPatente(patente);
         } catch (Exception e) {

@@ -2,8 +2,8 @@ package acciones;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Scanner;
+import sherlockhomes.Socio;
 import sherlockhomes.SocioRepositoryFile;
 import sherlockhomes.Usuario;
 
@@ -18,18 +18,18 @@ public class AccionesAdminSocio {
     public void ejecutar(Usuario usuarioLogueado, int opc, Scanner sc) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
-            case 1 -> registrarSocio(sc);
-            case 2 -> modificarSocio(sc);
-            case 3 -> eliminarSocio(sc);
+            case 1 -> registrar(sc);
+            case 2 -> modificar(sc);
+            case 3 -> eliminar(sc);
             case 4 -> listarSocioVehiculos(sc);
             case 5 -> listarSocioGarages(sc);
-            case 6 -> associatedRepository.listarSociosAll();
+            case 6 -> associatedRepository.listarAll();
             case 0 -> {}
             default -> System.out.println("Opcion no reconocida");
         }
     }
     
-    public void registrarSocio(Scanner sc) {
+    public void registrar(Scanner sc) {
         System.out.println("=== Registro de nuevo Socio ===");
 
         System.out.print("Ingrese Nombre: ");
@@ -39,7 +39,7 @@ public class AccionesAdminSocio {
         int DNI = sc.nextInt();
         sc.nextLine();
         
-        if(associatedRepository.existeSocioPorDni(DNI)){
+        if(associatedRepository.existePorValor(DNI)){
             System.out.println("Socio ya existe.");
             return;
         }
@@ -51,22 +51,23 @@ public class AccionesAdminSocio {
         String telefono = sc.nextLine();
 
         try{ 
-            associatedRepository.crearSocio(nombre, DNI, direccion, telefono);
+            Socio aux = new Socio(nombre, DNI, direccion, telefono);
+            associatedRepository.crear(aux);
             System.out.println("Se agregó el socio exitosamente.");
-            associatedRepository.mostrarSocioPorDni(DNI);
+            associatedRepository.mostrarPorValor(DNI);
         } catch(Exception e) {
             System.out.println("Fallo registro de socio." + e.getMessage());
         }
     }
 
-    public void modificarSocio(Scanner sc) {
+    public void modificar(Scanner sc) {
         System.out.println("=== Modificar Socio ===");
                 
         System.out.print("Ingrese DNI: ");
         int DNI = sc.nextInt();
         sc.nextLine();
 
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.println("Socio no encontrado.");
             return;
         }
@@ -76,13 +77,14 @@ public class AccionesAdminSocio {
 
         System.out.println("Modificar telefono o vacio: ");
         String telefono = sc.nextLine();
-
-        associatedRepository.modificarSocioPorDni(DNI, direccion, telefono);
+        
+        Socio aux = new Socio("", DNI, direccion, telefono);
+        associatedRepository.modificarPorValor(DNI, aux);
 
         System.out.println("Se modificó el socio DNI " + DNI + ".");
     }
 
-    public void eliminarSocio(Scanner sc) {
+    public void eliminar(Scanner sc) {
         System.out.println("=== Eliminar Socio ===");
         
         int DNI;
@@ -91,12 +93,12 @@ public class AccionesAdminSocio {
         DNI = sc.nextInt();
         sc.nextLine();
         
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.println("Socio no encontrado.");
             return;
         }
 
-        associatedRepository.eliminarSocioPorDni(DNI);
+        associatedRepository.eliminarPorValor(DNI);
 
         System.out.println("Se eliminó el socio DNI " + DNI + ".");
     }
@@ -107,12 +109,12 @@ public class AccionesAdminSocio {
         int DNI = sc.nextInt();
         sc.nextLine();
 
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.println("Socio no encontrado.");
             return;
         }
         
-        associatedRepository.listarSocioVehiculos(associatedRepository.buscarSocioPorDni(DNI));
+        associatedRepository.listarSocioVehiculos(associatedRepository.buscarPorValor(DNI));
     }
     
     private void listarSocioGarages(Scanner sc) {
@@ -121,11 +123,11 @@ public class AccionesAdminSocio {
         int DNI = sc.nextInt();
         sc.nextLine();
 
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.println("Socio no encontrado.");
             return;
         }
         
-        associatedRepository.listarSocioGarages(associatedRepository.buscarSocioPorDni(DNI));
+        associatedRepository.listarSocioGarages(associatedRepository.buscarPorValor(DNI));
     }
 }
