@@ -14,14 +14,19 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public boolean crearGarage(Zona zona) {
+    public int ultimoGarage() {
         garages = cargarGarages();
         
-        garages.add(new Garage(zona));
+        return garages.get(garages.size() - 1).getNumeroGarage();
+    }
+    
+    @Override
+    public void crearGarage(Zona zona) {
+        int nuevoCodigo = ultimoGarage()+1; // se carga garages
+        
+        garages.add(new Garage(nuevoCodigo,zona));
         
         guardarGarages(garages);
-        
-        return true;
     }
     
     @Override
@@ -49,6 +54,23 @@ public class GarageRepositoryFile implements GarageRepository {
     
     public boolean tieneVehiculoAsignado(int numero){
         return (buscarGaragePorNumero(numero).getVehiculoOcupante() != null);    
+    }
+    
+    public boolean tienePropietario(int numero) {
+        return (buscarGaragePorNumero(numero).getPropietario() != null);
+    }
+    
+    public void comprarGarage(int numero, Socio socio) {
+        Garage garage = buscarGaragePorNumero(numero);
+        
+        for (Garage g : garages) {
+            if (g.getNumeroGarage()== garage.getNumeroGarage()) {
+                g.asignarPropietario(socio);
+                break; 
+            }
+        }
+        
+        guardarGarages(garages);
     }
     
     @Override
@@ -103,11 +125,14 @@ public class GarageRepositoryFile implements GarageRepository {
                 " | Mantenimiento: " + (garage.isMantenimientoContratado() ? "Si" : "No") +
                 " | Zona: " + garage.getZona().getLetra() +
                 (
-                    (garage.getVehiculoOcupante() != null) ? 
-                    " | Vehiculo: " + garage.getVehiculoOcupante().getMarca() + " Patente: " + garage.getVehiculoOcupante().getPatente() +
-                    " | Propietario: " + garage.getPropietario().getNombre() + " DNI: " + garage.getPropietario().getDNI() 
-                     : "")
-                );
+                    (garage.getPropietario()!= null) ?
+                    " | Propietario: " + garage.getPropietario().getNombre() + " DNI: " + garage.getPropietario().getDNI() +
+                            ((garage.getVehiculoOcupante() != null) ? 
+                                " | Vehiculo: " + garage.getVehiculoOcupante().getMarca() + " Patente: " + garage.getVehiculoOcupante().getPatente() 
+                                : "")
+                    : ""
+                )
+        );
     }
     
     @Override
@@ -125,6 +150,13 @@ public class GarageRepositoryFile implements GarageRepository {
         System.out.println("=== Lista de Garages ===");
         for (Garage g : garages) {
             mostrarGarage(g);
+        }
+    }
+    
+    @Override
+    public void eliminarSocio(Socio socioAux) {
+        for (Garage g : socioAux.getGarages()) {
+            quitarGarageVehiculo(g.numeroGarage);
         }
     }
 }

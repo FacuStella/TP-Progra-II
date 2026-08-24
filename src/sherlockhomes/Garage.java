@@ -6,7 +6,6 @@ import java.util.Date;
 public class Garage implements Serializable {
     private static final long serialVersionUID = 1L; 
     
-    private static int contadorGarage = 0; 
     protected int numeroGarage;
     protected double lecturaContadorLuz;
     protected boolean mantenimientoContratado;
@@ -16,8 +15,8 @@ public class Garage implements Serializable {
     protected Socio propietario;
     protected Date fechaCompra;
     
-    public Garage(Zona zona) {
-        this.numeroGarage = contadorGarage++;
+    public Garage(int numero,Zona zona) {
+        this.numeroGarage = numero;
         this.lecturaContadorLuz = 0;
         this.mantenimientoContratado = false;
         this.zona = zona;

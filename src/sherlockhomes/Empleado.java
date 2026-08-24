@@ -6,16 +6,18 @@ import static sherlockhomes.TipoUsuario.EMPLEADO;
 
 public class Empleado extends Usuario implements Serializable {
     
+
     private static final long serialVersionUID = 1L; 
     private static int contadorCodigo = 1000; 
+
     protected int codigo;
     protected String especialidad;
     protected ArrayList<Zona> zonasAsignadas;
     protected ArrayList<Vehiculo> vehiculosAsignados;
 
-    public Empleado(String nombre, int DNI, String direccion, String telefono, String especialidad) {
-        super(nombre, DNI, direccion, telefono, nombre+"Emp",String.format("%04d", DNI % 10000), EMPLEADO);
-        this.codigo = contadorCodigo++;
+    public Empleado(int id, int codigo, String nombre, int DNI, String direccion, String telefono, String especialidad) {
+        super(id, nombre, DNI, direccion, telefono, nombre+"Emp",String.format("%04d", DNI % 10000), EMPLEADO);
+        this.codigo = codigo;
         this.especialidad = especialidad;
         this.zonasAsignadas = new ArrayList();
     }
@@ -40,12 +42,28 @@ public class Empleado extends Usuario implements Serializable {
         zonasAsignadas.add(zona);
     }
     
+    public void quitarZona(Zona zona) {
+        zonasAsignadas.remove(zona);
+    }
+    
+    public void asignarZonas(ArrayList<Zona> zonas) {
+        this.zonasAsignadas = zonas;
+    }
+    
     public ArrayList<Vehiculo> getVehiculosAsignados() {
         return vehiculosAsignados; 
     }
     
     public void asignarVehiculo(Vehiculo vehiculo) {
         vehiculosAsignados.add(vehiculo);
+    }
+    
+    public void quitarVehiculo(Vehiculo vehiculo) {
+        vehiculosAsignados.remove(vehiculo);
+    }
+    
+    public void asignarVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculosAsignados = vehiculos;
     }
     
 }

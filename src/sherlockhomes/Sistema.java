@@ -85,50 +85,27 @@ public class Sistema {
     
     protected int mostrarMenuAdmin(int opcion) {
         int opcionAdmin = 0;
+        Vista vistaGestion;
         switch (opcion) {
-            case 1 -> {
-                Vista vistaGestionSocios = new VistaGestionSocios(); 
-                do{
-                    vistaGestionSocios.mostrarMenu();
-                    opcionAdmin = vistaGestionSocios.ingresaInt(sc);
-                } while (opcionAdmin == -1);
-            }
-            case 2 -> {
-                Vista vistaGestionVehiculos = new VistaGestionVehiculos();
-                do{
-                    vistaGestionVehiculos.mostrarMenu();
-                    opcionAdmin = vistaGestionVehiculos.ingresaInt(sc);
-                } while (opcionAdmin == -1);
-            }
-            case 3 -> {
-                Vista vistaGestionGarages = new VistaGestionGarages();
-                do{
-                    vistaGestionGarages.mostrarMenu();
-                    opcionAdmin = vistaGestionGarages.ingresaInt(sc);
-                } while (opcionAdmin == -1);  
-            }
-            case 4 -> {
-                Vista vistaGestionZonas = new VistaGestionZonas();
-                do{
-                    vistaGestionZonas.mostrarMenu();
-                    opcionAdmin = vistaGestionZonas.ingresaInt(sc);
-                } while (opcionAdmin == -1);    
-            }
-            case 5 -> {
-                Vista vistaGestionEmpleados = new VistaGestionEmpleados();
-                do{
-                    vistaGestionEmpleados.mostrarMenu();
-                    opcionAdmin = vistaGestionEmpleados.ingresaInt(sc);
-                } while (opcionAdmin == -1);  
-            }
+            case 1 -> vistaGestion = new VistaGestionSocios(); 
+            case 2 -> vistaGestion = new VistaGestionVehiculos();
+            case 3 -> vistaGestion = new VistaGestionGarages();
+            case 4 -> vistaGestion= new VistaGestionZonas();
+            case 5 -> vistaGestion = new VistaGestionEmpleados();
             case 0 -> {
-                Vista vista = new Vista();
-                vista.salir(); 
+                vistaGestion = new Vista();
+                vistaGestion.salir(); 
             }
             default -> {
-                Vista vista = new Vista();
-                vista.noReconocida();
+                vistaGestion = new Vista();
+                vistaGestion.noReconocida(); 
             }
+        }
+        if(opcion > 0 && opcion <= 5){
+            do{
+                vistaGestion.mostrarMenu();
+                opcionAdmin = vistaGestion.ingresaInt(sc);
+            } while (opcionAdmin == -1);
         }
         return opcionAdmin;
     }

@@ -19,9 +19,7 @@ public class Persistencia {
         } catch (Exception e) {
             ArrayList<Usuario> usuariosHard = new ArrayList<>();
 
-            //usuariosHard.add(new Socio("Gian", 11111111, "1151107777", "CABA", "gianSoc", "gian"));
-            //usuariosHard.add(new Empleado("Facu", 22222222, "1151108888", "CABA", "facuEmp", "facu", "ALGO"));
-            usuariosHard.add(new Usuario("admin", 11111111, "1122223333", "CABA", "admin", "admin", TipoUsuario.ADMINISTRADOR));
+            usuariosHard.add(new Usuario(0, "admin", 11111111, "1122223333", "CABA", "admin", "admin", TipoUsuario.ADMINISTRADOR));
             
             return usuariosHard; 
         }
@@ -81,14 +79,14 @@ public class Persistencia {
         } catch (Exception e) {
             ArrayList<Garage> garages = new ArrayList<>();
             ArrayList<Zona> zonas = cargarZonas();
-
+            int id = 0;
             // 4 garages por cada zona
             for (int i = 0; i < 4; i++) {
-                garages.add(new Garage(zonas.get(0)));
-                garages.add(new Garage(zonas.get(1)));
-                garages.add(new Garage(zonas.get(2)));
-                garages.add(new Garage(zonas.get(3)));
-                garages.add(new Garage(zonas.get(4)));
+                garages.add(new Garage(id++,zonas.get(0)));
+                garages.add(new Garage(id++,zonas.get(1)));
+                garages.add(new Garage(id++,zonas.get(2)));
+                garages.add(new Garage(id++,zonas.get(3)));
+                garages.add(new Garage(id++,zonas.get(4)));
             }
             guardarGarages(garages);
             return garages; 

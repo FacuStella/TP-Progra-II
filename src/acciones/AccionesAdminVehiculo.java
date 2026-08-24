@@ -29,7 +29,7 @@ public class AccionesAdminVehiculo {
             case 4 -> eliminarVehiculo(sc);
             case 5 -> vehicleRepository.listarVehiculosAll();
             case 0 -> {}
-            default -> {}
+            default -> System.out.println("Opcion no reconocida");
         }
     }
 
@@ -57,16 +57,17 @@ public class AccionesAdminVehiculo {
         int DNI = sc.nextInt();
         sc.nextLine();
 
-        if(!associatedRepository.existeSocioPorDni(DNI)){
+        if(!associatedRepository.existePorValor(DNI)){
             System.out.print("No existe el socio DNI " + DNI + ".");
             return;
         }
-
-        if(vehicleRepository.crearVehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarSocioPorDni(DNI))){
+        
+        try{
+            associatedRepository.asignarSocioVehiculo(DNI,vehicleRepository.crearVehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarPorValor(DNI)));
             System.out.println("Se agregó el vehiculo exitosamente.");
             vehicleRepository.mostrarVehiculoPorPatente(patente);
-        } else {
-            System.out.println("Fallo carga de vehiculo.");
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
         }
     }
     
@@ -78,6 +79,11 @@ public class AccionesAdminVehiculo {
 
         if(!vehicleRepository.existeVehiculoPorPatente(patente)){
             System.out.println("El vehiculo no existe.");
+            return;
+        }
+        
+        if(!associatedRepository.tieneGarages(vehicleRepository.buscarVehiculoPorPatente(patente).getPropietario())){
+            System.out.println("El socio no tiene garages.");
             return;
         }
         
@@ -131,10 +137,12 @@ public class AccionesAdminVehiculo {
             return;
         }
 
-        if(vehicleRepository.eliminarVehiculoPorPatente(patente)){
+        try{
+            associatedRepository.quitarVehiculoPorPatente(patente);
+            vehicleRepository.eliminarVehiculoPorPatente(patente);
             System.out.println("Se eliminó el vehiculo patente " + patente + ".");
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
         }
     }
-
-
 }

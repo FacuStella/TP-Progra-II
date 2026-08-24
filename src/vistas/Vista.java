@@ -10,7 +10,7 @@ public class Vista {
         
         input = sc.nextLine();
 
-        if (input.matches("\\d{1}")) {
+        if (input.matches("\\d{1,2}")) {
             opcion = Integer.parseInt(input);
         }   
         
@@ -24,7 +24,7 @@ public class Vista {
     }
 
     public void noReconocida() {
-                System.out.println("Opcion no reconocida.");
+        System.out.println("Opcion no reconocida.");
     }
     
 }

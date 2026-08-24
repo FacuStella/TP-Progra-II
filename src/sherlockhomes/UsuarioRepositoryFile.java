@@ -12,6 +12,13 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
     public UsuarioRepositoryFile(){}
     
     @Override
+    public int ultimoUsuario() {
+        usuarios = cargarUsuarios();
+        
+        return usuarios.get(usuarios.size() - 1).getId();
+    }
+    
+    @Override
     public void agregarUsuario(Usuario usuario) {
         usuarios = cargarUsuarios();
         
@@ -50,6 +57,8 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
                 Socio socioAux = (Socio) u;
                 socioAux.setTelefono(socio.getTelefono());
                 socioAux.setDireccion(socio.getDireccion());
+                socioAux.asignarVehiculos(socio.getVehiculos());
+                socioAux.asignarGarages(socio.getGarages());
                 break; 
             }
         }
@@ -66,6 +75,8 @@ public class UsuarioRepositoryFile implements UsuarioRepository {
                 empleadoAux.setTelefono(empleado.getTelefono());
                 empleadoAux.setDireccion(empleado.getDireccion());
                 empleadoAux.setEspecialidad(empleado.getEspecialidad());
+                empleadoAux.asignarVehiculos(empleado.getVehiculosAsignados());
+                empleadoAux.asignarZonas(empleado.getZonasAsignadas());
                 break; 
             }
         }

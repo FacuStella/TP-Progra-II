@@ -10,4 +10,6 @@ public interface ZonaRepository {
     public void listarZonasAll();
     public void listarZonas(ArrayList<Zona> zonas);
     public void listarZonaGarages(Zona zona);
+    public void asignarZonaEmpleado(String letra, int codigo);
+    public void quitarZonaEmpleado(String letra, Empleado empleado);
 }

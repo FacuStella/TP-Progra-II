@@ -2,11 +2,13 @@ package sherlockhomes;
 
 import java.util.ArrayList;
 import static sherlockhomes.Persistencia.cargarZonas;
+import static sherlockhomes.Persistencia.guardarZonas;
 
 public class ZonaRepositoryFile implements ZonaRepository {
     
     ArrayList<Zona> zonas;
     GarageRepositoryFile garageRepository;
+    EmpleadoRepositoryFile employeeRepository;
     
     public ZonaRepositoryFile(){
         garageRepository = new GarageRepositoryFile();
@@ -68,6 +70,35 @@ public class ZonaRepositoryFile implements ZonaRepository {
         for (Garage g : zona.getGarages()) {
             garageRepository.mostrarGarage(g);
         }
+    }
+    
+    @Override
+    public void asignarZonaEmpleado(String letra, int codigo) {
+        employeeRepository = new EmpleadoRepositoryFile();
+        Zona zona = buscarZonaPorLetra(letra);
+        
+        for (Zona z : zonas) {
+            if (z.getLetra().equals(zona.getLetra())) {
+                z.asignarEmpleado(employeeRepository.buscarEmpleadoPorCodigo(codigo));
+                break; 
+            }
+        }
+        
+        guardarZonas(zonas);
+    }
+    
+    @Override
+    public void quitarZonaEmpleado(String letra, Empleado empleado) {
+        Zona zona = buscarZonaPorLetra(letra);
+        
+        for (Zona z : zonas) {
+            if (z.getLetra().equals(zona.getLetra())) {
+                z.quitarEmpleado(empleado);
+                break; 
+            }
+        }
+        
+        guardarZonas(zonas);
     }
 
 

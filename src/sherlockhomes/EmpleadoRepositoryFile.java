@@ -15,17 +15,14 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
     
     @Override
-    public boolean crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
-        if(existeEmpleadoPorDni(DNI)){
-            System.out.println("Ya existe el empleado DNI " + DNI + ".");
-            return false;
-        } else {
-                Empleado empleado = new Empleado(nombre, DNI, direccion, telefono, especialidad);
+    public void crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
+        int ultimoId = userRepository.ultimoUsuario();
+        
+        int ultimoCodigo = ultimoEmpleado();
+        
+        Empleado empleado = new Empleado(ultimoId+1,ultimoCodigo+1, nombre, DNI, direccion, telefono, especialidad);
 
-                userRepository.agregarUsuario(empleado);
-                
-                return true;
-        }
+        userRepository.agregarUsuario(empleado);
     }
     
     @Override
@@ -54,34 +51,48 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public boolean existeEmpleadoPorDni(int DNI){
-        return buscarEmpleadoPorDni(DNI) == null ? false : true;
+        return (buscarEmpleadoPorDni(DNI) != null);
     }
     
     @Override
     public boolean existeEmpleadoPorCodigo(int codigo){
-        return buscarEmpleadoPorCodigo(codigo) == null ? false : true;
+        return (buscarEmpleadoPorCodigo(codigo) != null);
     }
     
     @Override
-    public boolean modificarEmpleadoPorDni(int DNI, String direccion, String telefono, String especialidad){
+    public void modificarEmpleadoPorDni(int DNI, String direccion, String telefono, String especialidad){
         empleados = cargarEmpleados();
         
-        Empleado empleadoAux;
+        Empleado empleado =  buscarEmpleadoPorDni(DNI);
         
-        empleadoAux = buscarEmpleadoPorDni(DNI);
-        
-        if(!direccion.isBlank()){empleadoAux.setDireccion(direccion);}
-        if(!direccion.isBlank()){empleadoAux.setTelefono(telefono);}
-        if(!especialidad.isBlank()){empleadoAux.setEspecialidad(especialidad);}
+        if(!direccion.isBlank()){empleado.setDireccion(direccion);}
+        if(!direccion.isBlank()){empleado.setTelefono(telefono);}
+        if(!especialidad.isBlank()){empleado.setEspecialidad(especialidad);}
           
-        userRepository.modificarEmpleado(empleadoAux);
-        
-        return true;
+        userRepository.modificarEmpleado(empleado);
     }
     
     @Override
-    public boolean modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad){
-        return buscarEmpleadoPorCodigo(codigo) == null ? false : true;
+    public void modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad){
+        modificarEmpleadoPorDni(buscarEmpleadoPorCodigo(codigo).getDNI(),direccion, telefono, especialidad);
+    }
+    
+    @Override
+    public void asignarEmpleadoZona(int codigo, Zona zona){
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.asignarZona(zona);
+        
+        userRepository.modificarEmpleado(empleado);
+    }
+    
+    @Override
+    public void asignarEmpleadoVehiculo(int codigo, Vehiculo vehiculo){
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.asignarVehiculo(vehiculo);
+        
+        userRepository.modificarEmpleado(empleado);
     }
     
     @Override
@@ -122,15 +133,22 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void listarEmpleadoVehiculos(Empleado empleado) {
         vehicleRepository = new VehiculoRepositoryFile();
-        System.out.println("=== Lista de vehiculos asignados del empleado "+empleado.getNombre()+" ===");
         vehicleRepository.listarVehiculos(empleado.getVehiculosAsignados());
     }
 
     @Override
     public void listarEmpleadoZonas(Empleado empleado) {
         zoneRepository = new ZonaRepositoryFile();
-        System.out.println("=== Lista de zonas del empleado "+empleado.getNombre()+" ===");
-        zoneRepository.listarZonas(empleado.getZonasAsignadas());
+        for (Zona z : empleado.getZonasAsignadas()){
+            int vehiculosAsignadosZona = 0;
+            zoneRepository.mostrarZona(z);
+            for(Vehiculo v : empleado.getVehiculosAsignados()){
+                if(v.getGarageAsignado().getZona().equals(z.getLetra())){
+                    vehiculosAsignadosZona++;
+                }
+            }
+            System.out.println("Vehiculos asignados:" + vehiculosAsignadosZona);
+        }
     }
 
     @Override
@@ -167,9 +185,34 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
             return false;
         }    
     }
+
+    @Override
+    public void quitarEmpleadoZona(int codigo, Zona zona) {
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.quitarZona(zona);
+        
+        userRepository.modificarEmpleado(empleado);
+    }
     
     @Override
-    public void asignarEmpleadoZona(Empleado empleado, Zona zona){
+    public void quitarEmpleadoVehiculo(int codigo, Vehiculo vehiculo) {
+        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+                
+        empleado.quitarVehiculo(vehiculo);
         
+        userRepository.modificarEmpleado(empleado);
     }
+    
+    @Override
+    public int ultimoEmpleado() {
+        empleados = cargarEmpleados();
+        
+        if (empleados.isEmpty()) {
+            return 0;
+        }
+
+        return empleados.get(empleados.size() - 1).getCodigo();
+    }
+    
 }
