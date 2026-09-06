@@ -15,71 +15,73 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
     
     @Override
-    public void crearEmpleado(String nombre, int DNI, String direccion, String telefono, String especialidad){ 
+    public void crear(Empleado empleado){ 
         int ultimoId = userRepository.ultimoUsuario();
         
         int ultimoCodigo = ultimoEmpleado();
         
-        Empleado empleado = new Empleado(ultimoId+1,ultimoCodigo+1, nombre, DNI, direccion, telefono, especialidad);
+        Empleado empleadoAux = new Empleado(ultimoId+1,ultimoCodigo+1, empleado.getNombre(), empleado.getDNI(), empleado.getDireccion(), empleado.getTelefono(), empleado.getEspecialidad());
 
-        userRepository.agregarUsuario(empleado);
+        userRepository.agregarUsuario(empleadoAux);
     }
     
     @Override
-    public Empleado buscarEmpleadoPorDni(int dni) {
+    public Empleado buscarPorValor(Integer valor, Integer parametro ) {
         empleados = cargarEmpleados();
         
-        for (Empleado e : empleados) {
-            if (e.getDNI() == dni) {
-                return e;
-            }
+        switch(parametro){
+            case 1: 
+                for (Empleado e : empleados) {
+                    if (e.getDNI() == valor) {
+                        return e;
+                    }
+                }
+                break;
+            case 2:
+                for (Empleado e : empleados) {
+                if (e.getCodigo() == valor) {
+                        return e;
+                    }
+                }
+                break;
+            default: return null; 
         }
         return null;
     }
     
+    //@Override
+    //public Empleado buscarEmpleadoPorCodigo(int codigo) {
+    //    empleados = cargarEmpleados();
+    //    
+    //    for (Empleado e : empleados) {
+    //        if (e.getCodigo() == codigo) {
+    //            return e;
+    //        }
+    //    }
+    //    return null;
+    //}
+    
     @Override
-    public Empleado buscarEmpleadoPorCodigo(int codigo) {
+    public boolean existePorValor(Integer valor, Integer parametro){
+        return (buscarPorValor(valor,parametro) != null);
+    }
+    
+    @Override
+    public void modificarPorValor(Integer valor, Integer parametro, Empleado empleado){
         empleados = cargarEmpleados();
         
-        for (Empleado e : empleados) {
-            if (e.getCodigo() == codigo) {
-                return e;
-            }
-        }
-        return null;
-    }
-    
-    @Override
-    public boolean existeEmpleadoPorDni(int DNI){
-        return (buscarEmpleadoPorDni(DNI) != null);
-    }
-    
-    @Override
-    public boolean existeEmpleadoPorCodigo(int codigo){
-        return (buscarEmpleadoPorCodigo(codigo) != null);
-    }
-    
-    @Override
-    public void modificarEmpleadoPorDni(int DNI, String direccion, String telefono, String especialidad){
-        empleados = cargarEmpleados();
+        Empleado empleadoAux =  buscarPorValor(valor, parametro);
         
-        Empleado empleado =  buscarEmpleadoPorDni(DNI);
-        
-        if(!direccion.isBlank()){empleado.setDireccion(direccion);}
-        if(!direccion.isBlank()){empleado.setTelefono(telefono);}
-        if(!especialidad.isBlank()){empleado.setEspecialidad(especialidad);}
+        if(!empleado.getDireccion().isBlank()){empleadoAux.setDireccion(empleado.getDireccion());}
+        if(!empleado.getTelefono().isBlank()){empleadoAux.setTelefono(empleado.getTelefono());}
+        if(!empleado.getEspecialidad().isBlank()){empleadoAux.setEspecialidad(empleado.getEspecialidad());}
           
         userRepository.modificarEmpleado(empleado);
     }
     
     @Override
-    public void modificarEmpleadoPorCodigo(int codigo, String direccion, String telefono, String especialidad){
-        modificarEmpleadoPorDni(buscarEmpleadoPorCodigo(codigo).getDNI(),direccion, telefono, especialidad);
-    }
-    
-    @Override
     public void asignarEmpleadoZona(int codigo, Zona zona){
-        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+        Empleado empleado = buscarPorValor(codigo, 2);
                 
         empleado.asignarZona(zona);
         
@@ -88,7 +90,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public void asignarEmpleadoVehiculo(int codigo, Vehiculo vehiculo){
-        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+        Empleado empleado = buscarPorValor(codigo, 2);
                 
         empleado.asignarVehiculo(vehiculo);
         
@@ -96,7 +98,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
     
     @Override
-    public void mostrarEmpleado(Empleado empleado) {
+    public void mostrar(Empleado empleado) {
         System.out.println("Nombre: " + empleado.getNombre() +
                            " | DNI: " + empleado.getDNI() +
                            " | Teléfono: " + empleado.getTelefono() +
@@ -104,29 +106,24 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
     
     @Override
-    public void mostrarEmpleadoPorDni(int DNI){
-        mostrarEmpleado(buscarEmpleadoPorDni(DNI));
+    public void mostrarPorValor(Integer valor, Integer parametro){
+        mostrar(buscarPorValor(valor,parametro));
     }
     
     @Override
-    public void mostrarEmpleadoPorCodigo(int codigo){
-        mostrarEmpleado(buscarEmpleadoPorCodigo(codigo));
-    }
-    
-    @Override
-    public void listarEmpleadosAll() {
+    public void listarAll() {
         empleados = cargarEmpleados();
         System.out.println("=== Lista de Empleados ===");
         for (Empleado e : empleados) {
-            mostrarEmpleado(e);
+            mostrar(e);
         }
     }
 
     @Override
-    public void listarEmpleados(ArrayList<Empleado> empleados) {
+    public void listar(ArrayList<Empleado> empleados) {
         System.out.println("=== Lista de Empleados ===");
         for (Empleado e : empleados) {
-            mostrarEmpleado(e);
+            mostrar(e);
         }
     }
     
@@ -152,43 +149,26 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     }
 
     @Override
-    public void eliminarEmpleado(Empleado empleado) {
+    public void eliminar(Empleado empleado) {
         userRepository.eliminarUsuario(empleado);
     }
 
     @Override
-    public boolean eliminarEmpleadoPorDni(int DNI) {
-        Empleado empleadoAux;
+    public void eliminarPorValor(Integer valor, Integer parametro) {
+        Empleado empleado = buscarPorValor(valor, parametro);
         
-        empleadoAux = buscarEmpleadoPorDni(DNI);
-        
-        if(empleadoAux != null){
-            eliminarEmpleado(empleadoAux);
-            return true;
-        } else {
-            System.out.println("No se encontró el empleado DNI: "+ DNI +":");
-            return false;
-        }    
-    }
-
-    @Override
-    public boolean eliminarEmpleadoPorCodigo(int codigo) {
-        Empleado empleadoAux;
-        
-        empleadoAux = buscarEmpleadoPorCodigo(codigo);
-        
-        if(empleadoAux != null){
-            eliminarEmpleado(empleadoAux);
-            return true;
-        } else {
-            System.out.println("No se encontró el empleado codigo: "+ codigo +":");
-            return false;
-        }    
+        try{
+            zoneRepository.eliminarEmpleado(empleado);
+            vehicleRepository.eliminarEmpleado(empleado);
+            eliminar(empleado);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void quitarEmpleadoZona(int codigo, Zona zona) {
-        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+        Empleado empleado = buscarPorValor(codigo, 2);
                 
         empleado.quitarZona(zona);
         
@@ -197,7 +177,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     
     @Override
     public void quitarEmpleadoVehiculo(int codigo, Vehiculo vehiculo) {
-        Empleado empleado = buscarEmpleadoPorCodigo(codigo);
+        Empleado empleado = buscarPorValor(codigo, 2);
                 
         empleado.quitarVehiculo(vehiculo);
         

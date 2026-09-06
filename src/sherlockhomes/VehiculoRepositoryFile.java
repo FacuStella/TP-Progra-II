@@ -177,4 +177,8 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
             eliminarVehiculo(v);
         }
     }
+
+    void eliminarEmpleado(Empleado empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
