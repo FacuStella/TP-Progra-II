@@ -11,6 +11,11 @@ public class Empleado extends Usuario implements Serializable {
     protected String especialidad;
     protected ArrayList<Zona> zonasAsignadas;
     protected ArrayList<Vehiculo> vehiculosAsignados;
+    
+    public Empleado(String nombre, int DNI, String direccion, String telefono, String especialidad) {
+        super(nombre, DNI, direccion, telefono);
+        this.especialidad = especialidad;
+    }
 
     public Empleado(int id, int codigo, String nombre, int DNI, String direccion, String telefono, String especialidad) {
         super(id, nombre, DNI, direccion, telefono, nombre+"Emp",String.format("%04d", DNI % 10000), EMPLEADO);

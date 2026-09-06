@@ -25,7 +25,7 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public Socio buscarPorValor(Integer dni) {
+    public Socio buscarPorValor(Integer dni, Integer parametro) {
         socios = cargarSocios();
         
         for (Socio s : socios) {
@@ -37,13 +37,13 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public boolean existePorValor(Integer dni) {
-        return (buscarPorValor(dni) != null);
+    public boolean existePorValor(Integer dni, Integer parametro) {
+        return (buscarPorValor(dni,0) != null);
     }
     
     @Override
-    public void modificarPorValor(Integer dni, Socio socio) {
-        Socio socioAux = buscarPorValor(dni);
+    public void modificarPorValor(Integer dni, Integer parametro, Socio socio) {
+        Socio socioAux = buscarPorValor(dni,0);
         
         if(!socio.getDireccion().isBlank()){socioAux.setDireccion(socio.getDireccion());}
         if(!socio.getTelefono().isBlank()){socioAux.setTelefono(socio.getTelefono());}
@@ -53,7 +53,7 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public void comprarGarage(int dni, Garage garage) {
-        Socio socio = buscarPorValor(dni);
+        Socio socio = buscarPorValor(dni,0);
         
         socio.comprarGarage(garage);
 
@@ -63,7 +63,7 @@ public class SocioRepositoryFile implements SocioRepository {
     public void asignarSocioVehiculo(int dni, Vehiculo vehiculo){
         socios = cargarSocios();
         
-        Socio socio = buscarPorValor(dni);
+        Socio socio = buscarPorValor(dni,0);
         
         socio.agregarVehiculo(vehiculo);
         
@@ -93,8 +93,8 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public void mostrarPorValor(Integer dni) {
-        mostrar(buscarPorValor(dni));
+    public void mostrarPorValor(Integer dni, Integer parametro) {
+        mostrar(buscarPorValor(dni,0));
     }
 
     @Override
@@ -132,8 +132,8 @@ public class SocioRepositoryFile implements SocioRepository {
     }
     
     @Override
-    public void eliminarPorValor(Integer dni){
-        Socio socio = buscarPorValor(dni);
+    public void eliminarPorValor(Integer dni, Integer parametro){
+        Socio socio = buscarPorValor(dni,0);
         
         try{
             garageRepository.eliminarSocio(socio);

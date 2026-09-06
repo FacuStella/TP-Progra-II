@@ -79,7 +79,7 @@ public class ZonaRepositoryFile implements ZonaRepository {
         
         for (Zona z : zonas) {
             if (z.getLetra().equals(zona.getLetra())) {
-                z.asignarEmpleado(employeeRepository.buscarEmpleadoPorCodigo(codigo));
+                z.asignarEmpleado(employeeRepository.buscarPorValor(codigo,2));
                 break; 
             }
         }
@@ -99,6 +99,10 @@ public class ZonaRepositoryFile implements ZonaRepository {
         }
         
         guardarZonas(zonas);
+    }
+
+    public void eliminarEmpleado(Empleado empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 

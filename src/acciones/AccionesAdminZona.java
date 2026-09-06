@@ -60,7 +60,7 @@ public class AccionesAdminZona {
         int codigo = sc.nextInt();
         sc.nextLine();
 
-        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+        if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
             return;
         }
@@ -78,12 +78,12 @@ public class AccionesAdminZona {
         int codigo = sc.nextInt();
         sc.nextLine();
 
-        if(!employeeRepository.existeEmpleadoPorCodigo(codigo)){
+        if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
             return;
         }
         
-        employeeRepository.listarEmpleadoZonas(employeeRepository.buscarEmpleadoPorCodigo(codigo));
+        employeeRepository.listarEmpleadoZonas(employeeRepository.buscarPorValor(codigo,2));
                 
         System.out.print("Ingrese letra de la zona que quiere quitar: ");
         String letra = sc.nextLine();
@@ -93,7 +93,7 @@ public class AccionesAdminZona {
             return;
         }
         
-        zoneRepository.quitarZonaEmpleado(letra, employeeRepository.buscarEmpleadoPorCodigo(codigo));
+        zoneRepository.quitarZonaEmpleado(letra, employeeRepository.buscarPorValor(codigo,2));
         employeeRepository.quitarEmpleadoZona(codigo, zoneRepository.buscarZonaPorLetra(letra));
         
         System.out.println("Empleado asignado exitosamente.");
