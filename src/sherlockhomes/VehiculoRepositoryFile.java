@@ -14,18 +14,16 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
-    public Vehiculo crearVehiculo(String patente, String marca, String tipo, String dimensiones, Socio socio){ 
-        Vehiculo vehiculo = new Vehiculo(patente, marca, tipo, dimensiones, socio);
-
+    public void crear(Vehiculo vehiculo){ 
+        vehiculos = cargarVehiculos();
+        
         vehiculos.add(vehiculo);
 
         guardarVehiculos(vehiculos);
-        
-        return vehiculo;
     }
                
     @Override
-    public Vehiculo buscarVehiculoPorPatente(String patente) {
+    public Vehiculo buscarPorValorS(String patente, Integer parametro) {
         vehiculos = cargarVehiculos();
         
         for (Vehiculo v : vehiculos) {
@@ -37,28 +35,28 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
-    public boolean existeVehiculoPorPatente(String patente) {
-        return (buscarVehiculoPorPatente(patente) != null);
+    public boolean existePorValorS(String patente, Integer parametro) {
+        return (buscarPorValorS(patente,0) != null);
     }
     
     @Override
     public boolean tieneGarageAsignado(String patente){
-        return (buscarVehiculoPorPatente(patente).getGarageAsignado() != null);
+        return (buscarPorValorS(patente,0).getGarageAsignado() != null);
     }
    
     @Override
     public boolean tieneEmpleadoAsignado(String patente) {
-        return (buscarVehiculoPorPatente(patente).getEmpleadoAsignado() != null);
+        return (buscarPorValorS(patente,0).getEmpleadoAsignado() != null);
     }
     
     @Override
     public void asignarVehiculoGarage(String patente, int garage){
         garageRepository = new GarageRepositoryFile();
-        Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
+        Vehiculo vehiculo = buscarPorValorS(patente,0);
         
         for (Vehiculo v : vehiculos) {
             if (v.getPatente() == vehiculo.getPatente()) {
-                v.asignarGarage(garageRepository.buscarGaragePorNumero(garage));
+                v.asignarGarage(garageRepository.buscarPorValor(garage,0));
                 break; 
             }
         }
@@ -67,12 +65,12 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     public void asignarVehiculoEmpleado(String patente, Empleado empleado){
-        buscarVehiculoPorPatente(patente).asignarEmpleado(empleado);
+        buscarPorValorS(patente,0).asignarEmpleado(empleado);
     }
     
     @Override
     public void quitarVehiculoGarage(String patente){
-        Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
+        Vehiculo vehiculo = buscarPorValorS(patente,0);
         
         for (Vehiculo v : vehiculos) {
             if (v.getPatente().equals(vehiculo.getPatente())) {
@@ -87,7 +85,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     @Override
     public void quitarGarageVehiculo(int numero){
         garageRepository = new GarageRepositoryFile();
-        Vehiculo vehiculo = buscarVehiculoPorPatente(garageRepository.buscarGaragePorNumero(numero).getVehiculoOcupante().getPatente());
+        Vehiculo vehiculo = buscarPorValorS(garageRepository.buscarPorValor(numero,0).getVehiculoOcupante().getPatente(),0);
         
         for (Vehiculo v : vehiculos) {
             if (v.getPatente().equals(vehiculo.getPatente())) {
@@ -101,7 +99,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
 
     @Override
     public void quitarVehiculoEmpleado(String patente) {
-        Vehiculo vehiculo = buscarVehiculoPorPatente(patente);
+        Vehiculo vehiculo = buscarPorValorS(patente,0);
         
         for (Vehiculo v : vehiculos) {
             if (v.getPatente()== vehiculo.getPatente()) {
@@ -114,7 +112,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
-    public void mostrarVehiculo(Vehiculo vehiculo) {
+    public void mostrar(Vehiculo vehiculo) {
         System.out.println("Patente: " + vehiculo.getPatente() +
                            " | Marca: " + vehiculo.getMarca() +
                            " | Tipo: " + vehiculo.getTipo() +
@@ -123,37 +121,37 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
-    public void mostrarVehiculoPorPatente(String patente){
-        mostrarVehiculo(buscarVehiculoPorPatente(patente));
+    public void mostrarPorValorS(String patente,Integer parametro){
+        mostrar(buscarPorValorS(patente,parametro));
     }
     
     @Override
     public void mostrarVehiculoGarage(Vehiculo vehiculo) {
         garageRepository = new GarageRepositoryFile();
         System.out.println("=== Garaga del vehiculo ===");
-        garageRepository.mostrarGarage(vehiculo.getGarageAsignado());
+        garageRepository.mostrar(vehiculo.getGarageAsignado());
     }
     
     @Override
-    public void listarVehiculosAll() { 
+    public void listarAll() { 
         vehiculos = cargarVehiculos();
         
         System.out.println("=== Lista de todos los vehiculos ===");
         for (Vehiculo v : vehiculos) {
-            mostrarVehiculo(v);
+            mostrar(v);
         }
     }
     
     @Override
-    public void listarVehiculos(ArrayList<Vehiculo> vehiculos) {
+    public void listar(ArrayList<Vehiculo> vehiculos) {
         System.out.println("=== Lista de vehiculos ===");
         for (Vehiculo v : vehiculos) {
-            mostrarVehiculo(v);
+            mostrar(v);
         }
     }
     
     @Override
-    public void eliminarVehiculo(Vehiculo vehiculo) {
+    public void eliminar(Vehiculo vehiculo) {
         vehiculos = cargarVehiculos();
         
         Iterator<Vehiculo> it = vehiculos.iterator();
@@ -168,17 +166,47 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
     }
     
     @Override
-    public void eliminarVehiculoPorPatente(String patente) {
-        eliminarVehiculo(buscarVehiculoPorPatente(patente));
+    public void eliminarPorValorS(String patente, Integer parametro) {
+        eliminar(buscarPorValorS(patente,parametro));
     }
 
     void eliminarSocio(Socio socioAux) {
         for (Vehiculo v : socioAux.getVehiculos()){
-            eliminarVehiculo(v);
+            eliminar(v);
         }
     }
 
     void eliminarEmpleado(Empleado empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Vehiculo buscarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean existePorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValor(Integer v, Integer p, Vehiculo t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValorS(String v, Integer p, Vehiculo t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValor(Integer v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

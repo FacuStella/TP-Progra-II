@@ -15,12 +15,12 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
     
     @Override
-    public boolean crearZona(String letra, int contadorLuz, String ancho, String profundidad) {
+    public void crear(Zona zona) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     @Override
-    public Zona buscarZonaPorLetra(String letra) {
+    public Zona buscarPorValorS(String letra, Integer parametro) {
         zonas = cargarZonas();
         
         for (Zona z : zonas) {
@@ -32,12 +32,12 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
     
     @Override
-    public boolean existeZonaPorLetra(String letra) {
-        return (buscarZonaPorLetra(letra) != null);
+    public boolean existePorValorS(String letra, Integer parametro) {
+        return (buscarPorValorS(letra,parametro) != null);
     }
     
     @Override
-    public void mostrarZona(Zona zona) {
+    public void mostrar(Zona zona) {
         System.out.println(
                 "Letra: " + zona.getLetra()+
                 " | Tipo vehiculos: " + zona.getTipoVehiculos()+
@@ -47,20 +47,20 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
     
     @Override
-    public void listarZonasAll() {
+    public void listarAll() {
         zonas = cargarZonas();
         System.out.println("=== Lista de todas las zonas ===");
         for (Zona z : zonas) {
-            mostrarZona(z);
+            mostrar(z);
         }
     }
 
 
     @Override
-    public void listarZonas(ArrayList<Zona> zonas) {
+    public void listar(ArrayList<Zona> zonas) {
         System.out.println("=== Lista de zonas ===");
         for (Zona z : zonas) {
-            mostrarZona(z);
+            mostrar(z);
         }
     }
    
@@ -68,14 +68,14 @@ public class ZonaRepositoryFile implements ZonaRepository {
     public void listarZonaGarages(Zona zona) {
         System.out.println("=== Lista de Garages de Zona "+zona.getLetra()+" ===");
         for (Garage g : zona.getGarages()) {
-            garageRepository.mostrarGarage(g);
+            garageRepository.mostrar(g);
         }
     }
     
     @Override
     public void asignarZonaEmpleado(String letra, int codigo) {
         employeeRepository = new EmpleadoRepositoryFile();
-        Zona zona = buscarZonaPorLetra(letra);
+        Zona zona = buscarPorValorS(letra,0);
         
         for (Zona z : zonas) {
             if (z.getLetra().equals(zona.getLetra())) {
@@ -89,7 +89,7 @@ public class ZonaRepositoryFile implements ZonaRepository {
     
     @Override
     public void quitarZonaEmpleado(String letra, Empleado empleado) {
-        Zona zona = buscarZonaPorLetra(letra);
+        Zona zona = buscarPorValorS(letra,0);
         
         for (Zona z : zonas) {
             if (z.getLetra().equals(zona.getLetra())) {
@@ -102,6 +102,51 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
 
     public void eliminarEmpleado(Empleado empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Zona buscarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean existePorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValor(Integer v, Integer p, Zona t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValorS(String v, Integer p, Zona t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminar(Zona t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValorS(String v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

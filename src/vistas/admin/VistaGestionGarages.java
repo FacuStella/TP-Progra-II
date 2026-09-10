@@ -2,11 +2,12 @@ package vistas.admin;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import vistas.Vista;
 
-public class VistaGestionGarages extends Vista {
+public class VistaGestionGarages extends VistaGestion{
 
-    @Override
+    public VistaGestionGarages() {
+    }
+
     public void mostrarMenu() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Acciones sobre Garages ===");

@@ -2,7 +2,7 @@ package sherlockhomes;
 
 import java.util.ArrayList;
 
-public interface EmpleadoRepository extends Repository<Empleado, Integer>{
+public interface EmpleadoRepository extends Repository<Empleado, Integer, String>{
     public int ultimoEmpleado();
     //public void crearEmpleado(String nombre, int dni, String direccion, String telefono, String especialidad);
     //public Empleado buscarEmpleadoPorDni(int DNI);

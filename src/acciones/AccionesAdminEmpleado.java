@@ -2,19 +2,20 @@ package acciones;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Scanner;
 import sherlockhomes.Empleado;
 import sherlockhomes.EmpleadoRepositoryFile;
+import sherlockhomes.EntradaCons;
 import sherlockhomes.Usuario;
 import sherlockhomes.VehiculoRepositoryFile;
 import sherlockhomes.ZonaRepositoryFile;
 
-public class AccionesAdminEmpleado {
+public class AccionesAdminEmpleado extends AccionesAdmin {
     
     protected EmpleadoRepositoryFile employeeRepository;
     protected VehiculoRepositoryFile vehicleRepository;
     protected ZonaRepositoryFile zoneRepository;
+    protected int buscarPor = 0;
+    protected int valor = -1;
     
     public AccionesAdminEmpleado(){
         employeeRepository = new EmpleadoRepositoryFile();
@@ -22,43 +23,48 @@ public class AccionesAdminEmpleado {
         zoneRepository = new ZonaRepositoryFile();
     }
 
-    public void ejecutar(Usuario usuarioLogueado, int opc, Scanner sc) {
+    @Override
+    public void ejecutar(Usuario usuarioLogueado, int opc) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
-            case 1 -> registrarEmpleado(sc);
-            case 2 -> modificarEmpleado(sc);
-            case 3 -> eliminarEmpleado(sc);
-            case 4 -> asignarEmpleadoZona(sc);
-            case 5 -> quitarEmpleadoZona(sc);
-            case 6 -> listarEmpleadoZonas(sc);
-            case 7 -> asignarVehiculoEmpleado(sc);
-            case 8 -> quitarEmpleadoVehiculo(sc);
-            case 9 -> listarEmpleadoVehiculos(sc);
+            case 1 -> registrarEmpleado();
+            case 2 -> modificarEmpleado();
+            case 3 -> eliminarEmpleado();
+            case 4 -> asignarEmpleadoZona();
+            case 5 -> quitarEmpleadoZona();
+            case 6 -> listarEmpleadoZonas();
+            case 7 -> asignarVehiculoEmpleado();
+            case 8 -> quitarEmpleadoVehiculo();
+            case 9 -> listarEmpleadoVehiculos();
             case 10 -> employeeRepository.listarAll();
             case 0 -> {}
             default -> System.out.println("Opcion no reconocida");
         }
     }
 
-    public int menuBusquedaEmpleado(Scanner sc) {
+    public void menuBusquedaEmpleado() {
         System.out.println("Ingrese clave por la que desea buscar al empleado.");
         System.out.println("1. Por DNI");
         System.out.println("2. Por codigo");
-        int opcion = sc.nextInt();
-        sc.nextLine();
-            
-        return opcion;
+        buscarPor = EntradaCons.ingresaInt();
+        
+        switch(buscarPor){
+            case 1 -> System.out.println("Ingrese DNI: ");
+            case 2 -> System.out.println("Ingrese codigo: ");
+            default -> {return;}
+        }
+        
+        valor = EntradaCons.ingresaInt();
     }
 
-    private void registrarEmpleado(Scanner sc) {
+    private void registrarEmpleado() {
         System.out.println("=== Registro de nuevo Empleado ===");
 
         System.out.print("Ingrese Nombre: ");
-        String nombre = sc.nextLine();
+        String nombre = EntradaCons.ingresaString();
 
         System.out.print("Ingrese DNI: ");
-        int DNI = sc.nextInt();
-        sc.nextLine();
+        int DNI = EntradaCons.ingresaInt();
 
         if(employeeRepository.existePorValor(DNI,1)){
             System.out.println("Ya existe empleado con DNI " + DNI + ".");
@@ -66,13 +72,13 @@ public class AccionesAdminEmpleado {
         }
 
         System.out.print("Ingrese direccion: ");
-        String direccion = sc.nextLine();
+        String direccion = EntradaCons.ingresaString();
 
         System.out.print("Ingrese Telefono: ");
-        String telefono = sc.nextLine();
+        String telefono = EntradaCons.ingresaString();
 
         System.out.print("Ingrese Especialidad: ");
-        String especialidad = sc.nextLine();
+        String especialidad = EntradaCons.ingresaString();
         
         try{
             Empleado aux = new Empleado(nombre, DNI, direccion, telefono, especialidad);
@@ -84,71 +90,57 @@ public class AccionesAdminEmpleado {
         }
     }
 
-    private void modificarEmpleado(Scanner sc) {
+    private void modificarEmpleado() {
         System.out.println("=== Modificar Empleado ===");
                 
-        int buscarPor = menuBusquedaEmpleado(sc);
-        int aux;
-        switch(buscarPor){
-            case 1 -> System.out.println("Ingrese DNI: ");
-            case 2 -> System.out.println("Ingrese codigo: ");
-            default -> {return;}
-        }
-        aux = sc.nextInt();
-        sc.nextLine();
-        if(!employeeRepository.existePorValor(aux,buscarPor)){
+        menuBusquedaEmpleado();
+
+        if(!employeeRepository.existePorValor(valor,buscarPor)){
             System.out.println("Empleado no encontrado.");
             return;
         }
 
         System.out.print("Modificar direccion o vacio: ");
-        String direccion = sc.nextLine();
+        String direccion = EntradaCons.ingresaString();
 
         System.out.print("Modificar telefono o vacio: ");
-        String telefono = sc.nextLine();
+        String telefono = EntradaCons.ingresaString();
 
         System.out.print("Modificar especialidad o vacio: ");
-        String especialidad = sc.nextLine();
+        String especialidad = EntradaCons.ingresaString();
         
         Empleado empleado = new Empleado("", 0, direccion, telefono, especialidad);
-        employeeRepository.modificarPorValor(aux, buscarPor, empleado);
+        employeeRepository.modificarPorValor(valor, buscarPor, empleado);
         System.out.println("Se modificó existosamente el empleado.");
-        employeeRepository.mostrarPorValor(aux,buscarPor);
+        employeeRepository.mostrarPorValor(valor,buscarPor);
     }
 
-    private void eliminarEmpleado(Scanner sc) {
+    private void eliminarEmpleado() {
         System.out.println("=== Eliminar Empleado ===");
-        int buscarPor = menuBusquedaEmpleado(sc);
-        int aux;
-        switch(buscarPor){
-            case 1 -> System.out.println("Ingrese DNI: ");
-            case 2 -> System.out.println("Ingrese codigo: ");
-            default -> {return;}
-        }
-        aux = sc.nextInt();
-        sc.nextLine();
-        if(employeeRepository.existePorValor(aux, buscarPor)){
-            employeeRepository.eliminarPorValor(aux, buscarPor);
+        
+        menuBusquedaEmpleado();
+
+        if(employeeRepository.existePorValor(valor, buscarPor)){
+            employeeRepository.eliminarPorValor(valor, buscarPor);
         } else {
             System.out.println("No existe el empleado ingresado.");
         }
         System.out.println("Se eliminó el empleado exitosamente.");
     }
 
-    private void asignarEmpleadoZona(Scanner sc) {
+    private void asignarEmpleadoZona() {
         System.out.println("=== Asignar zona a empleado ===");
                 
         System.out.print("Ingrese letra de la zona que quiere asignar: ");
-        String letra = sc.nextLine();
+        String letra = EntradaCons.ingresaString();
 
-        if(!zoneRepository.existeZonaPorLetra(letra)){
+        if(!zoneRepository.existePorValorS(letra,0)){
             System.out.println("No existe la zona con letra " + letra + ".");
             return;
         }
         
         System.out.println("Ingrese codigo de empleado a asignar: ");
-        int codigo = sc.nextInt();
-        sc.nextLine();
+        int codigo = EntradaCons.ingresaInt();
 
         if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
@@ -156,31 +148,30 @@ public class AccionesAdminEmpleado {
         }
         
         zoneRepository.asignarZonaEmpleado(letra, codigo);
-        employeeRepository.asignarEmpleadoZona(codigo, zoneRepository.buscarZonaPorLetra(letra));
+        employeeRepository.asignarEmpleadoZona(codigo, zoneRepository.buscarPorValorS(letra,0));
         
         System.out.println("Empleado asignado exitosamente.");
     }
 
-    private void asignarVehiculoEmpleado(Scanner sc) {
+    private void asignarVehiculoEmpleado() {
         System.out.println("=== Asignar vehículo a empleado ===");
         
         employeeRepository.listarAll();
         
         System.out.println("Ingrese codigo: ");
-        int codigo = sc.nextInt();
-        sc.nextLine();
+        int codigo = EntradaCons.ingresaInt();
 
         if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
             return;
         }
         
-        vehicleRepository.listarVehiculosAll();
+        vehicleRepository.listarAll();
         
         System.out.println("Ingrese patente: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("El vehiculo no existe.");
             return;
         }
@@ -190,50 +181,36 @@ public class AccionesAdminEmpleado {
         }
         
         vehicleRepository.asignarVehiculoEmpleado(patente,employeeRepository.buscarPorValor(codigo,2));
-        employeeRepository.asignarEmpleadoVehiculo(codigo,vehicleRepository.buscarVehiculoPorPatente(patente));
+        employeeRepository.asignarEmpleadoVehiculo(codigo,vehicleRepository.buscarPorValorS(patente,0));
         // falta modificar el objeto VehiculoAsignado de Garage
     }
 
-    private void listarEmpleadoVehiculos(Scanner sc) {
-        int buscarPor = menuBusquedaEmpleado(sc);
-        int aux;
-        switch(buscarPor){
-            case 1 -> System.out.println("Ingrese DNI: ");
-            case 2 -> System.out.println("Ingrese codigo: ");
-            default -> {return;}
-        }
-        aux = sc.nextInt();
-        sc.nextLine();
-        if(employeeRepository.existePorValor(aux,buscarPor)){
-            employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarPorValor(aux,buscarPor));
+    private void listarEmpleadoVehiculos() {
+        menuBusquedaEmpleado();
+
+        if(employeeRepository.existePorValor(valor,buscarPor)){
+            employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarPorValor(valor,buscarPor));
         } else {
             System.out.println("No existe el empleado ingresado.");
         }
     }
     
-    private void listarEmpleadoZonas(Scanner sc) {
-        int buscarPor = menuBusquedaEmpleado(sc);
-        int aux;
-        switch(buscarPor){
-            case 1 -> System.out.println("Ingrese DNI: ");
-            case 2 -> System.out.println("Ingrese codigo: ");
-            default -> {return;}
-        }
-        aux = sc.nextInt();
-        sc.nextLine();
-        if(employeeRepository.existePorValor(aux,buscarPor)){
-            employeeRepository.listarEmpleadoZonas(employeeRepository.buscarPorValor(aux,buscarPor));
+    private void listarEmpleadoZonas() {
+        menuBusquedaEmpleado();
+        
+        if(employeeRepository.existePorValor(valor,buscarPor)){
+            employeeRepository.listarEmpleadoZonas(employeeRepository.buscarPorValor(valor,buscarPor));
         } else {
             System.out.println("No existe el empleado ingresado.");
         }
     }
 
-    private void quitarEmpleadoZona(Scanner sc) {
+    private void quitarEmpleadoZona() {
         System.out.println("=== Quitar de zona a empleado ===");
         
         System.out.println("Ingrese codigo de empleado: ");
-        int codigo = sc.nextInt();
-        sc.nextLine();
+        int codigo = EntradaCons.ingresaInt();
+        EntradaCons.ingresaString();
 
         if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
@@ -243,25 +220,24 @@ public class AccionesAdminEmpleado {
         employeeRepository.listarEmpleadoZonas(employeeRepository.buscarPorValor(codigo,2));
                 
         System.out.print("Ingrese letra de la zona que quiere quitar: ");
-        String letra = sc.nextLine();
+        String letra = EntradaCons.ingresaString();
 
-        if(!zoneRepository.existeZonaPorLetra(letra)){
+        if(!zoneRepository.existePorValorS(letra,0)){
             System.out.println("No existe la zona con letra " + letra + ".");
             return;
         }
         
         zoneRepository.quitarZonaEmpleado(letra, employeeRepository.buscarPorValor(codigo,2));
-        employeeRepository.quitarEmpleadoZona(codigo, zoneRepository.buscarZonaPorLetra(letra));
+        employeeRepository.quitarEmpleadoZona(codigo, zoneRepository.buscarPorValorS(letra,0));
         
         System.out.println("Empleado desasignado exitosamente.");
     }
 
-    private void quitarEmpleadoVehiculo(Scanner sc) {
+    private void quitarEmpleadoVehiculo() {
         System.out.println("=== Quitar vehiculo a empleado ===");
         
         System.out.println("Ingrese codigo de empleado: ");
-        int codigo = sc.nextInt();
-        sc.nextLine();
+        int codigo = EntradaCons.ingresaInt();
 
         if(!employeeRepository.existePorValor(codigo,2)){
             System.out.println("El empleado no existe.");
@@ -271,15 +247,15 @@ public class AccionesAdminEmpleado {
         employeeRepository.listarEmpleadoVehiculos(employeeRepository.buscarPorValor(codigo,2));
                 
         System.out.print("Ingrese patente a quitar: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("No existe vehiculo.");
             return;
         }
         
         vehicleRepository.quitarVehiculoEmpleado(patente);
-        employeeRepository.quitarEmpleadoVehiculo(codigo, vehicleRepository.buscarVehiculoPorPatente(patente));
+        employeeRepository.quitarEmpleadoVehiculo(codigo, vehicleRepository.buscarPorValorS(patente,0));
         
         System.out.println("Vehiculo desasignado exitosamente.");
     }

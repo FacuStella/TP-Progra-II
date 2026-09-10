@@ -130,7 +130,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void listarEmpleadoVehiculos(Empleado empleado) {
         vehicleRepository = new VehiculoRepositoryFile();
-        vehicleRepository.listarVehiculos(empleado.getVehiculosAsignados());
+        vehicleRepository.listar(empleado.getVehiculosAsignados());
     }
 
     @Override
@@ -138,7 +138,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         zoneRepository = new ZonaRepositoryFile();
         for (Zona z : empleado.getZonasAsignadas()){
             int vehiculosAsignadosZona = 0;
-            zoneRepository.mostrarZona(z);
+            zoneRepository.mostrar(z);
             for(Vehiculo v : empleado.getVehiculosAsignados()){
                 if(v.getGarageAsignado().getZona().equals(z.getLetra())){
                     vehiculosAsignadosZona++;
@@ -193,6 +193,31 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         }
 
         return empleados.get(empleados.size() - 1).getCodigo();
+    }
+
+    @Override
+    public Empleado buscarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean existePorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValorS(String v, Integer p, Empleado t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

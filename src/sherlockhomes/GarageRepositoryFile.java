@@ -21,7 +21,7 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public void crearGarage(Zona zona) {
+    public void crear(Zona zona) {
         int nuevoCodigo = ultimoGarage()+1; // se carga garages
         
         garages.add(new Garage(nuevoCodigo,zona));
@@ -30,7 +30,7 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public Garage buscarGaragePorNumero(int numero) {
+    public Garage buscarPorValor(Integer numero, Integer parametro) {
         garages = cargarGarages();
         
         for (Garage g : garages) {
@@ -48,20 +48,20 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public boolean existeGaragePorNumero(int numero) {
-        return (buscarGaragePorNumero(numero) != null);
+    public boolean existePorValor(Integer numero, Integer parametro) {
+        return (buscarPorValor(numero,parametro) != null);
     }
     
     public boolean tieneVehiculoAsignado(int numero){
-        return (buscarGaragePorNumero(numero).getVehiculoOcupante() != null);    
+        return (buscarPorValor(numero,0).getVehiculoOcupante() != null);    
     }
     
     public boolean tienePropietario(int numero) {
-        return (buscarGaragePorNumero(numero).getPropietario() != null);
+        return (buscarPorValor(numero,0).getPropietario() != null);
     }
     
     public void comprarGarage(int numero, Socio socio) {
-        Garage garage = buscarGaragePorNumero(numero);
+        Garage garage = buscarPorValor(numero,0);
         
         for (Garage g : garages) {
             if (g.getNumeroGarage()== garage.getNumeroGarage()) {
@@ -76,11 +76,11 @@ public class GarageRepositoryFile implements GarageRepository {
     @Override
     public void asignarGarageVehiculo(int numero, String patente){
         vehicleRepository = new VehiculoRepositoryFile();
-        Garage garage = buscarGaragePorNumero(numero);
+        Garage garage = buscarPorValor(numero,0);
         
         for (Garage g : garages) {
             if (g.getNumeroGarage()== garage.getNumeroGarage()) {
-                g.asignarVehiculo(vehicleRepository.buscarVehiculoPorPatente(patente));
+                g.asignarVehiculo(vehicleRepository.buscarPorValorS(patente,0));
                 break; 
             }
         }
@@ -90,7 +90,7 @@ public class GarageRepositoryFile implements GarageRepository {
     
     @Override
     public void quitarGarageVehiculo(int numero){
-        Garage garage = buscarGaragePorNumero(numero);
+        Garage garage = buscarPorValor(numero,0);
         
         for (Garage g : garages) {
             if (g.getNumeroGarage()== garage.getNumeroGarage()) {
@@ -105,7 +105,7 @@ public class GarageRepositoryFile implements GarageRepository {
     @Override
     public void quitarVehiculoGarage(String patente){
         vehicleRepository = new VehiculoRepositoryFile();
-        Garage garage = buscarGaragePorNumero(vehicleRepository.buscarVehiculoPorPatente(patente).getGarageAsignado().getNumeroGarage());
+        Garage garage = buscarPorValor(vehicleRepository.buscarPorValorS(patente,0).getGarageAsignado().getNumeroGarage(),0);
         
         for (Garage g : garages) {
             if (g.getNumeroGarage()== garage.getNumeroGarage()) {
@@ -118,7 +118,7 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public void mostrarGarage(Garage garage) {
+    public void mostrar(Garage garage) {
         System.out.println(
                 "Numero: " + garage.getNumeroGarage() +
                 " | Contador de luz: " + garage.getLecturaContadorLuz()+
@@ -136,20 +136,20 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public void listarGaragesAll() {
+    public void listarAll() {
         garages = cargarGarages();
         System.out.println("=== Lista de Garages ===");
         for (Garage g : garages) {
-            mostrarGarage(g);
+            mostrar(g);
         }
     }
 
 
     @Override
-    public void listarGarages(ArrayList<Garage> garages) {
+    public void listar(ArrayList<Garage> garages) {
         System.out.println("=== Lista de Garages ===");
         for (Garage g : garages) {
-            mostrarGarage(g);
+            mostrar(g);
         }
     }
     
@@ -158,5 +158,55 @@ public class GarageRepositoryFile implements GarageRepository {
         for (Garage g : socioAux.getGarages()) {
             quitarGarageVehiculo(g.numeroGarage);
         }
+    }
+
+    @Override
+    public void crear(Garage t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Garage buscarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean existePorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValor(Integer v, Integer p, Garage t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValorS(String v, Integer p, Garage t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminar(Garage t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValor(Integer v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

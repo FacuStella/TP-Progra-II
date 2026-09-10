@@ -1,7 +1,6 @@
 package sherlockhomes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import static sherlockhomes.Persistencia.cargarSocios;
 
 public class SocioRepositoryFile implements SocioRepository {
@@ -38,7 +37,7 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public boolean existePorValor(Integer dni, Integer parametro) {
-        return (buscarPorValor(dni,0) != null);
+        return (buscarPorValor(dni,parametro) != null);
     }
     
     @Override
@@ -74,7 +73,7 @@ public class SocioRepositoryFile implements SocioRepository {
     public void quitarVehiculoPorPatente(String patente){
         vehicleRepository = new VehiculoRepositoryFile();
         
-        Vehiculo vehiculo = vehicleRepository.buscarVehiculoPorPatente(patente);
+        Vehiculo vehiculo = vehicleRepository.buscarPorValorS(patente,0);
         
         Socio socio = vehiculo.getPropietario();
                 
@@ -94,7 +93,7 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public void mostrarPorValor(Integer dni, Integer parametro) {
-        mostrar(buscarPorValor(dni,0));
+        mostrar(buscarPorValor(dni,parametro));
     }
 
     @Override
@@ -117,13 +116,13 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public void listarSocioVehiculos(Socio socio) {
         vehicleRepository = new VehiculoRepositoryFile();
-        vehicleRepository.listarVehiculos(socio.getVehiculos());
+        vehicleRepository.listar(socio.getVehiculos());
     }
     
     @Override
     public void listarSocioGarages(Socio socio) {
         garageRepository = new GarageRepositoryFile();
-        garageRepository.listarGarages(socio.getGarages());
+        garageRepository.listar(socio.getGarages());
     }
 
     @Override
@@ -133,13 +132,15 @@ public class SocioRepositoryFile implements SocioRepository {
     
     @Override
     public void eliminarPorValor(Integer dni, Integer parametro){
-        Socio socio = buscarPorValor(dni,0);
+        Socio socio = buscarPorValor(dni,parametro);
         
         try{
-            garageRepository.eliminarSocio(socio);
-            vehicleRepository.eliminarSocio(socio);
+            if(!socio.getGarages().isEmpty()){garageRepository.eliminarSocio(socio);}
+            if(!socio.getVehiculos().isEmpty()){vehicleRepository.eliminarSocio(socio);}
             eliminar(socio);
+            System.out.println("Se eliminó el socio DNI " + dni + ".");
         } catch (Exception e){
+            System.out.println("Hubo un error al eliminar el socio:");
             System.out.println(e.getMessage());
         }
     }
@@ -147,5 +148,30 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public boolean tieneGarages(Socio propietario) {
         return (propietario.getGarages() != null);
+    }
+
+    @Override
+    public Socio buscarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean existePorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void modificarPorValorS(String v, Integer p, Socio t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPorValorS(String v, Integer p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
