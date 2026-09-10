@@ -2,13 +2,14 @@ package acciones;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import sherlockhomes.EntradaCons;
 import sherlockhomes.GarageRepositoryFile;
 import sherlockhomes.SocioRepositoryFile;
 import sherlockhomes.Usuario;
+import sherlockhomes.Vehiculo;
 import sherlockhomes.VehiculoRepositoryFile;
 
-public class AccionesAdminVehiculo {
+public class AccionesAdminVehiculo extends AccionesAdmin {
     
     VehiculoRepositoryFile vehicleRepository;
     SocioRepositoryFile associatedRepository;
@@ -20,42 +21,41 @@ public class AccionesAdminVehiculo {
         garageRepository = new GarageRepositoryFile();
     }
 
-    public void ejecutar(Usuario usuario, int opc, Scanner sc) {
+    public void ejecutar(Usuario usuario, int opc) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
-            case 1 -> registrarVehiculo(sc);
-            case 2 -> asignarVehiculoGarage(sc);
-            case 3 -> quitarVehiculoGarage(sc);
-            case 4 -> eliminarVehiculo(sc);
-            case 5 -> vehicleRepository.listarVehiculosAll();
+            case 1 -> registrarVehiculo();
+            case 2 -> asignarVehiculoGarage();
+            case 3 -> quitarVehiculoGarage();
+            case 4 -> eliminarVehiculo();
+            case 5 -> vehicleRepository.listarAll();
             case 0 -> {}
             default -> System.out.println("Opcion no reconocida");
         }
     }
 
-    public void registrarVehiculo(Scanner sc) {
+    public void registrarVehiculo() {
         System.out.println("=== Registro de vehículo para socio ===");
 
         System.out.println("Ingrese patente: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(vehicleRepository.existePorValorS(patente,0)){
             System.out.println("Ya existe el vehiculo con patente " + patente + ".");
             return;
         }
 
         System.out.println("Ingrese marca: ");
-        String marca = sc.nextLine();
+        String marca = EntradaCons.ingresaString();
 
         System.out.println("Ingrese tipo de vehículo (Auto/Moto/Camioneta): ");
-        String tipo = sc.nextLine();
+        String tipo = EntradaCons.ingresaString();
 
         System.out.println("Ingrese Dimensiones: ");
-        String dimensiones = sc.nextLine();
+        String dimensiones = EntradaCons.ingresaString();
 
         System.out.println("Ingrese DNI propietario: ");
-        int DNI = sc.nextInt();
-        sc.nextLine();
+        int DNI = EntradaCons.ingresaInt();
 
         if(!associatedRepository.existePorValor(DNI,0)){
             System.out.print("No existe el socio DNI " + DNI + ".");
@@ -63,37 +63,38 @@ public class AccionesAdminVehiculo {
         }
         
         try{
-            associatedRepository.asignarSocioVehiculo(DNI,vehicleRepository.crearVehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarPorValor(DNI,0)));
+            Vehiculo vehiculo = new Vehiculo(patente, marca, tipo, dimensiones, associatedRepository.buscarPorValor(DNI,0));
+            vehicleRepository.crear(vehiculo);
+            associatedRepository.asignarSocioVehiculo(DNI,vehiculo);
             System.out.println("Se agregó el vehiculo exitosamente.");
-            vehicleRepository.mostrarVehiculoPorPatente(patente);
+            vehicleRepository.mostrarPorValorS(patente,0);
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
         }
     }
     
-    public void asignarVehiculoGarage(Scanner sc) {
+    public void asignarVehiculoGarage() {
         System.out.println("=== Asignar vehículo a garage ===");
 
         System.out.println("Ingrese patente: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("El vehiculo no existe.");
             return;
         }
         
-        if(!associatedRepository.tieneGarages(vehicleRepository.buscarVehiculoPorPatente(patente).getPropietario())){
+        if(!associatedRepository.tieneGarages(vehicleRepository.buscarPorValorS(patente,0).getPropietario())){
             System.out.println("El socio no tiene garages.");
             return;
         }
         
-        associatedRepository.listarSocioGarages(vehicleRepository.buscarVehiculoPorPatente(patente).getPropietario());
+        associatedRepository.listarSocioGarages(vehicleRepository.buscarPorValorS(patente,0).getPropietario());
         
         System.out.println("Ingrese numero gge: ");
-        int numero = sc.nextInt();
-        sc.nextLine();
+        int numero = EntradaCons.ingresaInt();
 
-        if(!garageRepository.existeGaragePorNumero(numero)){
+        if(!garageRepository.existePorValor(numero,0)){
             System.out.println("El garage no existe.");
             return;
         }
@@ -106,13 +107,13 @@ public class AccionesAdminVehiculo {
         vehicleRepository.asignarVehiculoGarage(patente,numero);
     }
 
-    public void quitarVehiculoGarage(Scanner sc) {
+    public void quitarVehiculoGarage() {
         System.out.println("=== Quitar vehículo a garage ===");
 
         System.out.println("Ingrese patente: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("El vehiculo no existe.");
             return;
         }
@@ -126,20 +127,20 @@ public class AccionesAdminVehiculo {
         vehicleRepository.quitarVehiculoGarage(patente);
     }
 
-    public void eliminarVehiculo(Scanner sc) {
+    public void eliminarVehiculo() {
         System.out.println("=== Eliminar Vehiculo ===");
                 
         System.out.print("Ingrese patente a eliminar: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("No existe el vehiculo con patente " + patente + ".");
             return;
         }
 
         try{
             associatedRepository.quitarVehiculoPorPatente(patente);
-            vehicleRepository.eliminarVehiculoPorPatente(patente);
+            vehicleRepository.eliminarPorValorS(patente,0);
             System.out.println("Se eliminó el vehiculo patente " + patente + ".");
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());

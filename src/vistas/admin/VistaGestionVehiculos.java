@@ -2,11 +2,12 @@ package vistas.admin;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import vistas.Vista;
 
-public class VistaGestionVehiculos extends Vista {
+public class VistaGestionVehiculos extends VistaGestion{
 
-    @Override
+    public VistaGestionVehiculos() {
+    }
+
     public void mostrarMenu() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.out.println("=== Acciones sobre Vehiculos ===");

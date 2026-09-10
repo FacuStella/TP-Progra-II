@@ -2,9 +2,8 @@ package vistas.admin;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import vistas.Vista;
 
-public class VistaGestionEmpleados extends Vista {
+public class VistaGestionEmpleados extends VistaGestion {
 
     @Override
     public void mostrarMenu() {

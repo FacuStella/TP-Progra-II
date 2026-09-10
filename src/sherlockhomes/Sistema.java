@@ -1,24 +1,20 @@
 package sherlockhomes;
 
 import vistas.*;
-import vistas.socio.*;
-import vistas.empleado.*;
 import vistas.admin.*;
 import acciones.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 import static sherlockhomes.TipoUsuario.*;
 
 public class Sistema {
     protected Usuario usuarioLogueado;
-    protected Scanner sc;
+    protected static final Vista vista = new Vista();
    
-    public Sistema (Scanner sc) {
-        this.sc = sc;
+    public Sistema () {
     }
     
-    public void iniciar() {  
+    public void iniciar() { 
         logueaUsuario();
+        catalogaUsuario();
         
         int accion;
         do{
@@ -29,85 +25,68 @@ public class Sistema {
     
     protected void logueaUsuario() {
         Login login = new Login();
-        usuarioLogueado = login.ingresar(sc);
+        usuarioLogueado = login.ingresar();
+    }
+    
+    private void catalogaUsuario() {
+        switch (usuarioLogueado.getTipoUsuario()) {
+            case SOCIO -> {
+                usuarioLogueado = (Socio) usuarioLogueado;
+            }
+            case EMPLEADO -> {
+                usuarioLogueado = (Empleado) usuarioLogueado;
+            }
+        }
     }
     
     protected int mostrarMenu() {
         int opcion = 0;
-        switch (usuarioLogueado.getTipoUsuario()) {
-            case SOCIO -> {
-                Vista vistaSocio = new VistaSocio();
-                do{
-                    vistaSocio.mostrarMenu();
-                    opcion = vistaSocio.ingresaInt(sc);
-                } while (opcion == -1);
+        do{
+            switch (usuarioLogueado) {
+                case Empleado e -> vista.mostrarMenu(e);
+                case Socio s -> vista.mostrarMenu(s);
+                default -> vista.mostrarMenu(usuarioLogueado);
             }
-            case EMPLEADO -> {
-                Vista vistaEmpleado = new VistaEmpleado();
-                do{
-                    vistaEmpleado.mostrarMenu();
-                    opcion = vistaEmpleado.ingresaInt(sc);
-                } while (opcion == -1);
-            }
-            case ADMINISTRADOR -> {
-                Vista vistaAdmin = new VistaAdministrador();
-                do{
-                    vistaAdmin.mostrarMenu();
-                    opcion = vistaAdmin.ingresaInt(sc);
-                } while (opcion == -1);
-            }
-        }
+            opcion = EntradaCons.ingresaInt();
+        } while (opcion == -1);
         return opcion;
     }
     
     protected void ejecutarAccion(int opcion) {
-        switch (usuarioLogueado.getTipoUsuario()) {
-            case SOCIO -> {
-                Socio socioAux = (Socio) usuarioLogueado;
-                AccionesSocio accionesSocio = new AccionesSocio();
-                accionesSocio.ejecutar(socioAux, opcion);
-            }
-            case EMPLEADO -> {
-                Empleado empleadoAux = (Empleado) usuarioLogueado;
-                AccionesEmpleado accionesEmpleado = new AccionesEmpleado();
-                accionesEmpleado.ejecutar(empleadoAux, opcion);
-            }
-            case ADMINISTRADOR -> {
-                int opcAdm;
-                do{
-                    opcAdm = mostrarMenuAdmin(opcion);
-                    AccionesAdmin accionesAdmin = new AccionesAdmin();
-                    accionesAdmin.ejecutar(usuarioLogueado, opcion, opcAdm, sc);
-                } while(opcAdm != 0);
-            }
+        int opcAdm = 0;
+        if (usuarioLogueado.getTipoUsuario() == ADMINISTRADOR){
+            opcAdm = mostrarMenuAdmin(opcion);
         }
+        Acciones acciones = new Acciones();
+        switch (usuarioLogueado) {
+            case Empleado e -> acciones.ejecutar(e, opcion, opcAdm);
+            case Socio s -> acciones.ejecutar(s, opcion, opcAdm);
+            default -> acciones.ejecutar(usuarioLogueado, opcion, opcAdm);
+        }
+                  
     }
     
     protected int mostrarMenuAdmin(int opcion) {
         int opcionAdmin = 0;
-        Vista vistaGestion;
+        VistaGestion vistaGestion = null;
         switch (opcion) {
             case 1 -> vistaGestion = new VistaGestionSocios(); 
             case 2 -> vistaGestion = new VistaGestionVehiculos();
             case 3 -> vistaGestion = new VistaGestionGarages();
-            case 4 -> vistaGestion= new VistaGestionZonas();
+            case 4 -> vistaGestion = new VistaGestionZonas();
             case 5 -> vistaGestion = new VistaGestionEmpleados();
-            case 0 -> {
-                vistaGestion = new Vista();
-                vistaGestion.salir(); 
-            }
-            default -> {
-                vistaGestion = new Vista();
-                vistaGestion.noReconocida(); 
-            }
+            case 0 -> vista.salir(); 
+            default -> vista.noReconocida(); 
         }
-        if(opcion > 0 && opcion <= 5){
+        if(vistaGestion != null){
             do{
                 vistaGestion.mostrarMenu();
-                opcionAdmin = vistaGestion.ingresaInt(sc);
+                opcionAdmin = EntradaCons.ingresaInt();
             } while (opcionAdmin == -1);
         }
         return opcionAdmin;
     }
+
+ 
 
 }

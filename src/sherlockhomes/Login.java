@@ -3,19 +3,18 @@ package sherlockhomes;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Scanner;
 import static sherlockhomes.Persistencia.cargarUsuarios;
 
 public class Login {
-    public Usuario ingresar(Scanner sc) {
+    public Usuario ingresar() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         Usuario usuario;
         do{
             System.out.print("Usuario: ");
-            String username = sc.nextLine();
+            String username = EntradaCons.ingresaString();
 
             System.out.print("Contraseña: ");
-            String password = sc.nextLine();
+            String password = EntradaCons.ingresaString();
 
             usuario = autenticar(username, password);
             if(usuario == null){

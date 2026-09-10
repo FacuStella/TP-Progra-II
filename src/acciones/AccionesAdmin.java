@@ -1,35 +1,24 @@
 package acciones;
 
-import java.util.Scanner;
 import sherlockhomes.Usuario;
 
 public class AccionesAdmin {
 
-    public void ejecutar(Usuario usuarioLogueado, int opc, int opcAdm, Scanner sc) {
-       
+    public void ejecutar(Usuario usuarioLogueado, int opc, int opcAdm) {
+        AccionesAdmin accionesAdmin = null;
         switch (opc) {
-            case 1 -> {
-                AccionesAdminSocio accionesAdmin = new AccionesAdminSocio();
-                accionesAdmin.ejecutar(usuarioLogueado, opcAdm, sc);
-            }
-            case 2 -> {
-                AccionesAdminVehiculo accionesAdmin = new AccionesAdminVehiculo();
-                accionesAdmin.ejecutar(usuarioLogueado, opcAdm, sc);
-            }
-            case 3 -> {
-                AccionesAdminGarage accionesAdmin = new AccionesAdminGarage();
-                accionesAdmin.ejecutar(usuarioLogueado, opcAdm, sc);
-            }
-            case 4 -> {
-                AccionesAdminZona accionesAdmin = new AccionesAdminZona();
-                accionesAdmin.ejecutar(usuarioLogueado, opcAdm, sc);
-            }
-            case 5 -> {
-                AccionesAdminEmpleado accionesAdmin = new AccionesAdminEmpleado();  
-                accionesAdmin.ejecutar(usuarioLogueado, opcAdm, sc);
-            }
+            case 1 -> accionesAdmin = new AccionesAdminSocio();
+            case 2 -> accionesAdmin = new AccionesAdminVehiculo();
+            case 3 -> accionesAdmin = new AccionesAdminGarage();
+            case 4 -> accionesAdmin = new AccionesAdminZona();
+            case 5 -> accionesAdmin = new AccionesAdminEmpleado();  
             case 0 -> {}
             default -> {}
         }
+        if (accionesAdmin != null){
+            accionesAdmin.ejecutar(usuarioLogueado, opcAdm);
+        }
     }
+    
+    public void ejecutar(Usuario usuarioLogueado, int opc){}
 }

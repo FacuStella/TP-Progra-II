@@ -2,7 +2,7 @@ package sherlockhomes;
 
 import java.util.ArrayList;
 
-public interface SocioRepository extends Repository<Socio, Integer> {
+public interface SocioRepository extends Repository<Socio, Integer, String> {
     //public void crearSocio(String nombre, int dni, String direccion, String telefono);
     //public Socio buscarSocioPorDni(int DNI);
     //public boolean existeSocioPorDni(int DNI);

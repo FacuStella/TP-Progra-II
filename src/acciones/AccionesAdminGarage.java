@@ -2,14 +2,14 @@ package acciones;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import sherlockhomes.EntradaCons;
 import sherlockhomes.GarageRepositoryFile;
 import sherlockhomes.SocioRepositoryFile;
 import sherlockhomes.Usuario;
 import sherlockhomes.VehiculoRepositoryFile;
 import sherlockhomes.ZonaRepositoryFile;
 
-public class AccionesAdminGarage {
+public class AccionesAdminGarage extends AccionesAdmin {
     
     protected GarageRepositoryFile garageRepository;
     protected VehiculoRepositoryFile vehicleRepository;
@@ -23,32 +23,32 @@ public class AccionesAdminGarage {
         zoneRepository = new ZonaRepositoryFile();
     }
 
-    public void ejecutar(Usuario usuario, int opc, Scanner sc) {
+    public void ejecutar(Usuario usuario, int opc ) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         switch (opc) {
-            case 1 -> registrarGarage(sc); 
-            case 2 -> asignarGarageVehiculo(sc);
-            case 3 -> quitarGarageVehiculo(sc);
-            case 4 -> comprarGarage(sc);
-            case 5 -> garageRepository.listarGaragesAll();
+            case 1 -> registrarGarage(); 
+            case 2 -> asignarGarageVehiculo();
+            case 3 -> quitarGarageVehiculo();
+            case 4 -> comprarGarage();
+            case 5 -> garageRepository.listarAll();
             case 0 -> {}
             default -> System.out.println("Opcion no reconocida");
         }
     }
 
-    private void registrarGarage(Scanner sc) {
+    private void registrarGarage() {
         System.out.println("=== Registro de garage ===");
         
         System.out.print("Ingrese zona donde se agrega el garage: ");
-        String letra = sc.nextLine();
+        String letra = EntradaCons.ingresaString();
 
-        if(!zoneRepository.existeZonaPorLetra(letra)){
+        if(!zoneRepository.existePorValorS(letra,0)){
             System.out.println("No existe la zona.");
             return;
         }
         
         try{
-            garageRepository.crearGarage(zoneRepository.buscarZonaPorLetra(letra));
+            garageRepository.crear(zoneRepository.buscarPorValorS(letra,0));
             System.out.println("Se agregó el garage exitosamente.");
             //garageRepository.mostrarGaragePorNumero(patente);
         } catch(Exception e) {
@@ -56,14 +56,13 @@ public class AccionesAdminGarage {
         }
     }
 
-    private void quitarGarageVehiculo(Scanner sc) {
+    private void quitarGarageVehiculo() {
         System.out.println("=== Quitar garage a vehiculo ===");
 
         System.out.println("Ingrese numero: ");
-        int numero = sc.nextInt();
-        sc.nextLine();
+        int numero = EntradaCons.ingresaInt();
         
-        if(!garageRepository.existeGaragePorNumero(numero)){
+        if(!garageRepository.existePorValor(numero,0)){
             System.out.println("El garage no existe.");
             return;
         }
@@ -77,14 +76,13 @@ public class AccionesAdminGarage {
         garageRepository.quitarGarageVehiculo(numero);  
     }
 
-    private void asignarGarageVehiculo(Scanner sc) {
+    private void asignarGarageVehiculo() {
         System.out.println("=== Asignar garage a vehículo===");
         
         System.out.println("Ingrese numero gge: ");
-        int numero = sc.nextInt();
-        sc.nextLine();
+        int numero = EntradaCons.ingresaInt();
         
-        if(!garageRepository.existeGaragePorNumero(numero)){
+        if(!garageRepository.existePorValor(numero,0)){
             System.out.println("El garage no existe.");
             return;
         }
@@ -94,12 +92,12 @@ public class AccionesAdminGarage {
             return;
         }
         
-        asocciatedRepository.listarSocioVehiculos(garageRepository.buscarGaragePorNumero(numero).getPropietario());
+        asocciatedRepository.listarSocioVehiculos(garageRepository.buscarPorValor(numero,0).getPropietario());
         
         System.out.println("Ingrese patente: ");
-        String patente = sc.nextLine();
+        String patente = EntradaCons.ingresaString();
 
-        if(!vehicleRepository.existeVehiculoPorPatente(patente)){
+        if(!vehicleRepository.existePorValorS(patente,0)){
             System.out.println("El vehiculo no existe.");
             return;
         }
@@ -108,18 +106,21 @@ public class AccionesAdminGarage {
             garageRepository.quitarGarageVehiculo(numero);
         }
         
+        if(vehicleRepository.tieneGarageAsignado(patente)){
+            garageRepository.quitarVehiculoGarage(patente);
+        }
+        
         garageRepository.asignarGarageVehiculo(numero,patente);
         vehicleRepository.asignarVehiculoGarage(patente,numero);
     }
 
-    private void comprarGarage(Scanner sc) {
+    private void comprarGarage() {
         System.out.println("=== Venta de garage ===");
         
         System.out.println("Ingrese numero gge: ");
-        int numero = sc.nextInt();
-        sc.nextLine();
+        int numero = EntradaCons.ingresaInt();
         
-        if(!garageRepository.existeGaragePorNumero(numero)){
+        if(!garageRepository.existePorValor(numero,0)){
             System.out.println("El garage no existe.");
             return;
         }
@@ -130,15 +131,14 @@ public class AccionesAdminGarage {
         }
         
         System.out.println("Ingrese DNI del socio que compra: ");
-        int DNI = sc.nextInt();
-        sc.nextLine();
+        int DNI = EntradaCons.ingresaInt();
         
         if(!asocciatedRepository.existePorValor(DNI,0)){
             System.out.println("El socio no existe.");
             return;
         }
         
-        asocciatedRepository.comprarGarage(DNI,garageRepository.buscarGaragePorNumero(numero));
+        asocciatedRepository.comprarGarage(DNI,garageRepository.buscarPorValor(numero,0));
         garageRepository.comprarGarage(numero,asocciatedRepository.buscarPorValor(DNI,0));
     }
 }
