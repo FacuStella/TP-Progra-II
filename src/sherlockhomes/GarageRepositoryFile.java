@@ -1,11 +1,13 @@
 package sherlockhomes;
 
+import daos.GarageDAO;
+import models.Garage;
+import models.Socio;
 import java.util.ArrayList;
-import java.util.Iterator;
 import static sherlockhomes.Persistencia.cargarGarages;
 import static sherlockhomes.Persistencia.guardarGarages;
 
-public class GarageRepositoryFile implements GarageRepository {
+public class GarageRepositoryFile implements GarageDAO {
     
     protected ArrayList<Garage> garages;
     protected VehiculoRepositoryFile vehicleRepository;
@@ -21,10 +23,10 @@ public class GarageRepositoryFile implements GarageRepository {
     }
     
     @Override
-    public void crear(Zona zona) {
+    public void crear(Garage garage) {
         int nuevoCodigo = ultimoGarage()+1; // se carga garages
         
-        garages.add(new Garage(nuevoCodigo,zona));
+        garages.add(new Garage(nuevoCodigo,garage.getZona()));
         
         guardarGarages(garages);
     }
@@ -144,7 +146,6 @@ public class GarageRepositoryFile implements GarageRepository {
         }
     }
 
-
     @Override
     public void listar(ArrayList<Garage> garages) {
         System.out.println("=== Lista de Garages ===");
@@ -156,42 +157,18 @@ public class GarageRepositoryFile implements GarageRepository {
     @Override
     public void eliminarSocio(Socio socioAux) {
         for (Garage g : socioAux.getGarages()) {
-            quitarGarageVehiculo(g.numeroGarage);
+            quitarGarageVehiculo(g.getNumeroGarage());
         }
     }
-
-    @Override
-    public void crear(Garage t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Garage buscarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean existePorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
+    // VIOLA EL PRINCIPIO DE LISKOV
     @Override
     public void modificarPorValor(Integer v, Integer p, Garage t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void modificarPorValorS(String v, Integer p, Garage t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void mostrarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarPorValorS(String v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -204,9 +181,5 @@ public class GarageRepositoryFile implements GarageRepository {
     public void eliminarPorValor(Integer v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public void eliminarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    // QUE LO REMIL PARIO
 }

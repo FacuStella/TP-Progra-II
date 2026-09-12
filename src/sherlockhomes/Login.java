@@ -1,28 +1,37 @@
 package sherlockhomes;
 
+import models.Usuario;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import static sherlockhomes.Persistencia.cargarUsuarios;
 
 public class Login {
+    
+    protected String username;
+    protected String password;
+    protected Usuario usuario;
+    
     public Usuario ingresar() {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-        Usuario usuario;
-        do{
-            System.out.print("Usuario: ");
-            String username = EntradaCons.ingresaString();
-
-            System.out.print("Contraseña: ");
-            String password = EntradaCons.ingresaString();
-
-            usuario = autenticar(username, password);
-            if(usuario == null){
-                System.out.println("Credenciales inválidas.");
-            }
-        } while (usuario == null);
+        
+        pedirCredenciales();
+        
+        usuario = autenticar(username, password);
+        
+        if(usuario == null){
+            System.out.println("Credenciales inválidas.");
+        }
             
         return usuario;
+    }
+    
+    protected void pedirCredenciales(){
+        System.out.print("Usuario: ");
+        username = EntradaCons.ingresaString();
+
+        System.out.print("Contraseña: ");
+        password = EntradaCons.ingresaString();
     }
 
     protected Usuario autenticar(String username, String password) {

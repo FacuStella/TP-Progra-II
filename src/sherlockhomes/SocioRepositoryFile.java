@@ -1,9 +1,13 @@
 package sherlockhomes;
 
+import daos.SocioDAO;
+import models.Vehiculo;
+import models.Garage;
+import models.Socio;
 import java.util.ArrayList;
 import static sherlockhomes.Persistencia.cargarSocios;
 
-public class SocioRepositoryFile implements SocioRepository {
+public class SocioRepositoryFile implements SocioDAO {
     
     protected ArrayList<Socio> socios;
     protected UsuarioRepositoryFile userRepository;
@@ -26,7 +30,6 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public Socio buscarPorValor(Integer dni, Integer parametro) {
         socios = cargarSocios();
-        
         for (Socio s : socios) {
             if (s.getDNI() == dni) {
                 return s;
@@ -116,13 +119,17 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public void listarSocioVehiculos(Socio socio) {
         vehicleRepository = new VehiculoRepositoryFile();
-        vehicleRepository.listar(socio.getVehiculos());
+        if(!(socio.getVehiculos()==null)){
+            vehicleRepository.listar(socio.getVehiculos());
+        }
     }
     
     @Override
     public void listarSocioGarages(Socio socio) {
         garageRepository = new GarageRepositoryFile();
-        garageRepository.listar(socio.getGarages());
+        if(!(socio.getGarages()==null)){
+            garageRepository.listar(socio.getGarages());
+        }
     }
 
     @Override
@@ -148,30 +155,5 @@ public class SocioRepositoryFile implements SocioRepository {
     @Override
     public boolean tieneGarages(Socio propietario) {
         return (propietario.getGarages() != null);
-    }
-
-    @Override
-    public Socio buscarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean existePorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void modificarPorValorS(String v, Integer p, Socio t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void eliminarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

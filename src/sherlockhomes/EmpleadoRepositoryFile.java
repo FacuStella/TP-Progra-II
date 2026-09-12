@@ -1,9 +1,13 @@
 package sherlockhomes;
 
+import daos.EmpleadoDAO;
+import models.Zona;
+import models.Vehiculo;
+import models.Empleado;
 import java.util.ArrayList;
 import static sherlockhomes.Persistencia.cargarEmpleados;
 
-public class EmpleadoRepositoryFile implements EmpleadoRepository{
+public class EmpleadoRepositoryFile implements EmpleadoDAO{
     
     protected ArrayList<Empleado> empleados;
     protected UsuarioRepositoryFile userRepository;
@@ -49,18 +53,6 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         return null;
     }
     
-    //@Override
-    //public Empleado buscarEmpleadoPorCodigo(int codigo) {
-    //    empleados = cargarEmpleados();
-    //    
-    //    for (Empleado e : empleados) {
-    //        if (e.getCodigo() == codigo) {
-    //            return e;
-    //        }
-    //    }
-    //    return null;
-    //}
-    
     @Override
     public boolean existePorValor(Integer valor, Integer parametro){
         return (buscarPorValor(valor,parametro) != null);
@@ -100,6 +92,7 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void mostrar(Empleado empleado) {
         System.out.println("Nombre: " + empleado.getNombre() +
+                           " | Codigo: " + empleado.getCodigo()+
                            " | DNI: " + empleado.getDNI() +
                            " | Teléfono: " + empleado.getTelefono() +
                            " | Dirección: " + empleado.getDireccion());
@@ -130,21 +123,25 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
     @Override
     public void listarEmpleadoVehiculos(Empleado empleado) {
         vehicleRepository = new VehiculoRepositoryFile();
-        vehicleRepository.listar(empleado.getVehiculosAsignados());
+        if(!(empleado.getVehiculosAsignados() == null)){
+            vehicleRepository.listar(empleado.getVehiculosAsignados());
+        }
     }
 
     @Override
     public void listarEmpleadoZonas(Empleado empleado) {
         zoneRepository = new ZonaRepositoryFile();
-        for (Zona z : empleado.getZonasAsignadas()){
-            int vehiculosAsignadosZona = 0;
-            zoneRepository.mostrar(z);
-            for(Vehiculo v : empleado.getVehiculosAsignados()){
-                if(v.getGarageAsignado().getZona().equals(z.getLetra())){
-                    vehiculosAsignadosZona++;
+        if(!(empleado.getZonasAsignadas() == null)){
+            for (Zona z : empleado.getZonasAsignadas()){
+                int vehiculosAsignadosZona = 0;
+                zoneRepository.mostrar(z);
+                for(Vehiculo v : empleado.getVehiculosAsignados()){
+                    if(v.getGarageAsignado().getZona().equals(z.getLetra())){
+                        vehiculosAsignadosZona++;
+                    }
                 }
+                System.out.println("Vehiculos asignados:" + vehiculosAsignadosZona);
             }
-            System.out.println("Vehiculos asignados:" + vehiculosAsignadosZona);
         }
     }
 
@@ -193,31 +190,6 @@ public class EmpleadoRepositoryFile implements EmpleadoRepository{
         }
 
         return empleados.get(empleados.size() - 1).getCodigo();
-    }
-
-    @Override
-    public Empleado buscarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean existePorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void modificarPorValorS(String v, Integer p, Empleado t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void eliminarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
