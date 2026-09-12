@@ -1,11 +1,15 @@
 package sherlockhomes;
 
+import daos.UsuarioDAO;
+import models.Usuario;
+import models.Empleado;
+import models.Socio;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static sherlockhomes.Persistencia.cargarUsuarios;
 import static sherlockhomes.Persistencia.guardarUsuarios;
 
-public class UsuarioRepositoryFile implements UsuarioRepository {
+public class UsuarioRepositoryFile implements UsuarioDAO {
     
     ArrayList<Usuario> usuarios;
     

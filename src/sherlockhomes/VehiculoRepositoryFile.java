@@ -1,14 +1,18 @@
 package sherlockhomes;
 
+import daos.VehiculoDAO;
+import models.Vehiculo;
+import models.Empleado;
+import models.Socio;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static sherlockhomes.Persistencia.cargarVehiculos;
 import static sherlockhomes.Persistencia.guardarVehiculos;
 
-public class VehiculoRepositoryFile implements VehiculoRepository {
+public class VehiculoRepositoryFile implements VehiculoDAO {
     
-    ArrayList<Vehiculo> vehiculos;
-    GarageRepositoryFile garageRepository;
+    private ArrayList<Vehiculo> vehiculos;
+    private GarageRepositoryFile garageRepository;
     
     public VehiculoRepositoryFile(){
     }
@@ -64,6 +68,7 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
         guardarVehiculos(vehiculos);
     }
     
+    @Override
     public void asignarVehiculoEmpleado(String patente, Empleado empleado){
         buscarPorValorS(patente,0).asignarEmpleado(empleado);
     }
@@ -109,6 +114,11 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
         }
         
         guardarVehiculos(vehiculos);
+    }
+    
+    @Override
+    public void modificarPorValorS(String v, Integer p, Vehiculo t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     @Override
@@ -180,33 +190,5 @@ public class VehiculoRepositoryFile implements VehiculoRepository {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public Vehiculo buscarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    @Override
-    public boolean existePorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void modificarPorValor(Integer v, Integer p, Vehiculo t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void modificarPorValorS(String v, Integer p, Vehiculo t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void eliminarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

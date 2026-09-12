@@ -4,6 +4,7 @@ nbproject/private/
 # Archivos de compilación
 build/
 dist/
+OLD/
 
 # Java
 *.class

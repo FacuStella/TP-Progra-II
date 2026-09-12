@@ -1,10 +1,14 @@
 package sherlockhomes;
 
+import daos.ZonaDAO;
+import models.Zona;
+import models.Empleado;
+import models.Garage;
 import java.util.ArrayList;
 import static sherlockhomes.Persistencia.cargarZonas;
 import static sherlockhomes.Persistencia.guardarZonas;
 
-public class ZonaRepositoryFile implements ZonaRepository {
+public class ZonaRepositoryFile implements ZonaDAO {
     
     ArrayList<Zona> zonas;
     GarageRepositoryFile garageRepository;
@@ -106,17 +110,7 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
 
     @Override
-    public Zona buscarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean existePorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void modificarPorValor(Integer v, Integer p, Zona t) {
+    public void eliminar(Zona t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -126,22 +120,7 @@ public class ZonaRepositoryFile implements ZonaRepository {
     }
 
     @Override
-    public void mostrarPorValor(Integer v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public void mostrarPorValorS(String v, Integer p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void eliminar(Zona t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void eliminarPorValor(Integer v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -149,6 +128,4 @@ public class ZonaRepositoryFile implements ZonaRepository {
     public void eliminarPorValorS(String v, Integer p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-
 }

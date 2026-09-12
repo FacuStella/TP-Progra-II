@@ -1,5 +1,11 @@
 package sherlockhomes;
 
+import models.Zona;
+import models.Usuario;
+import models.Vehiculo;
+import models.Empleado;
+import models.Garage;
+import models.Socio;
 import java.io.*;
 import java.util.ArrayList;
 
